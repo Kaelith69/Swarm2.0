@@ -59,6 +59,10 @@ Pi 5 tuning defaults are already set:
 - `LLM_CONTEXT_TOKENS=2048`
 - `MAX_RESPONSE_TOKENS=256`
 
+Safety defaults:
+- `MAX_INPUT_CHARS=8000` (reject oversized inputs)
+- `EXPOSE_DELIVERY_ERRORS=false` (redacts verbose provider error bodies)
+
 ## 4) Ingest documents for RAG
 
 ```bash
@@ -88,7 +92,7 @@ curl -X POST http://127.0.0.1:8000/query \
   -H "Content-Type: application/json" \
   -d '{"message":"What can you do?"}'
 
-The query response includes `route` to show which model path handled the request.
+The query response includes `route` and `reason` to show which model path handled the request and why.
 ```
 
 ## 6) Systemd service

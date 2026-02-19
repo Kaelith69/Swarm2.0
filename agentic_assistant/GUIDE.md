@@ -177,6 +177,8 @@ Hybrid routing variables
 - `GEMINI_API_KEY` + `GEMINI_MODEL`: used for long-context requests.
 - `KIMI_API_KEY` + `KIMI_BASE_URL` + `KIMI_MODEL`: used for planning/orchestration requests.
 - `CLOUD_TIMEOUT_SECONDS`: cloud request timeout.
+- `MAX_INPUT_CHARS`: hard limit for inbound message size to reduce abuse and runaway costs.
+- `EXPOSE_DELIVERY_ERRORS`: when `false`, webhook responses avoid exposing verbose provider error payloads.
 
 Routing rules implemented from TDD v2
 - Simple query -> Local Gemma

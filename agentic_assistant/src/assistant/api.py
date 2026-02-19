@@ -54,6 +54,25 @@ class QueryRequest(BaseModel):
     message: str
 
 
+def _validate_message_or_400(message: str) -> str:
+    cleaned = message.strip()
+    if not cleaned:
+        raise HTTPException(status_code=400, detail="message is required")
+    if len(cleaned) > settings.max_input_chars:
+        raise HTTPException(status_code=413, detail=f"message exceeds {settings.max_input_chars} chars")
+    return cleaned
+
+
+def _safe_delivery(delivery: dict) -> dict:
+    if settings.expose_delivery_errors or delivery.get("sent") is True:
+        return delivery
+
+    safe = {"sent": False, "reason": str(delivery.get("reason", "delivery_failed"))}
+    if "status_code" in delivery:
+        safe["status_code"] = delivery["status_code"]
+    return safe
+
+
 @app.get("/health")
 def health() -> dict:
     return {
@@ -70,10 +89,9 @@ def health() -> dict:
 
 @app.post("/query")
 def query(req: QueryRequest) -> dict:
-    if not req.message.strip():
-        raise HTTPException(status_code=400, detail="message is required")
-    result = orchestrator.respond_with_route(req.message.strip())
-    return {"route": result.route, "response": result.response}
+    message = _validate_message_or_400(req.message)
+    result = orchestrator.respond_with_route(message)
+    return {"route": result.route, "reason": result.reason, "response": result.response}
 
 
 @app.post("/webhook/telegram")
@@ -86,11 +104,18 @@ def telegram_webhook(payload: dict, x_telegram_bot_api_secret_token: str | None 
         return {"status": "ignored"}
 
     _, text = parsed
+    text = _validate_message_or_400(text)
     result = orchestrator.respond_with_route(text)
     generated = result.response
     chat_id = str(((payload.get("message") or payload.get("edited_message") or {}).get("chat") or {}).get("id", ""))
     outbound = senders.send_telegram(chat_id=chat_id, text=generated) if chat_id else {"sent": False, "reason": "chat id missing"}
-    return {"status": "ok", "route": result.route, "response": generated, "delivery": outbound}
+    return {
+        "status": "ok",
+        "route": result.route,
+        "reason": result.reason,
+        "response": generated,
+        "delivery": _safe_delivery(outbound),
+    }
 
 
 @app.post("/webhook/discord")
@@ -105,11 +130,18 @@ def discord_webhook(payload: dict, authorization: str | None = Header(default=No
         return {"status": "ignored"}
 
     _, text = parsed
+    text = _validate_message_or_400(text)
     result = orchestrator.respond_with_route(text)
     generated = result.response
     channel_id = str(payload.get("channel_id", ""))
     outbound = senders.send_discord(channel_id=channel_id, text=generated) if channel_id else {"sent": False, "reason": "channel id missing"}
-    return {"status": "ok", "route": result.route, "response": generated, "delivery": outbound}
+    return {
+        "status": "ok",
+        "route": result.route,
+        "reason": result.reason,
+        "response": generated,
+        "delivery": _safe_delivery(outbound),
+    }
 
 
 @app.get("/webhook/whatsapp")
@@ -126,6 +158,7 @@ def whatsapp_webhook(payload: dict) -> dict:
         return {"status": "ignored"}
 
     user_phone, text = parsed
+    text = _validate_message_or_400(text)
     result = orchestrator.respond_with_route(text)
     generated = result.response
     number_id = str(
@@ -138,4 +171,10 @@ def whatsapp_webhook(payload: dict) -> dict:
         .get("phone_number_id", "")
     )
     outbound = senders.send_whatsapp(to_phone=user_phone, text=generated, phone_number_id=number_id or None)
-    return {"status": "ok", "route": result.route, "response": generated, "delivery": outbound}
+    return {
+        "status": "ok",
+        "route": result.route,
+        "reason": result.reason,
+        "response": generated,
+        "delivery": _safe_delivery(outbound),
+    }

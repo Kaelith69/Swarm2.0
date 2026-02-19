@@ -47,6 +47,8 @@ class Settings:
     embedding_model: str = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
     rag_top_k: int = _env_int("RAG_TOP_K", 3)
     rag_data_dir: Path = Path(os.getenv("RAG_DATA_DIR", "./data/rag"))
+    max_input_chars: int = _env_int("MAX_INPUT_CHARS", 8000)
+    expose_delivery_errors: bool = os.getenv("EXPOSE_DELIVERY_ERRORS", "false").lower() == "true"
 
     long_context_threshold_chars: int = _env_int("LONG_CONTEXT_THRESHOLD_CHARS", 1200)
     cloud_timeout_seconds: int = _env_int("CLOUD_TIMEOUT_SECONDS", 25)

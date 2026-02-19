@@ -10,6 +10,7 @@ from assistant.rag.store import RagStore
 @dataclass(frozen=True)
 class RouteResult:
     route: str
+    reason: str
     response: str
 
 
@@ -29,7 +30,18 @@ class AgentOrchestrator:
         self.long_context_threshold_chars = long_context_threshold_chars
 
     def _is_rag_query(self, message: str) -> bool:
-        tokens = ("doc", "document", "source", "knowledge", "from file", "based on")
+        tokens = (
+            "doc",
+            "document",
+            "source",
+            "knowledge",
+            "from file",
+            "based on",
+            "according to",
+            "reference",
+            "cite",
+            "context",
+        )
         lowered = message.lower()
         return any(token in lowered for token in tokens)
 
@@ -39,7 +51,17 @@ class AgentOrchestrator:
         return any(token in lowered for token in tokens)
 
     def _is_complex_reasoning_query(self, message: str) -> bool:
-        tokens = ("analyze", "compare", "tradeoff", "reason", "justify", "deep")
+        tokens = (
+            "analyze",
+            "compare",
+            "tradeoff",
+            "reason",
+            "justify",
+            "deep",
+            "pros and cons",
+            "step by step",
+            "root cause",
+        )
         lowered = message.lower()
         return any(token in lowered for token in tokens)
 
@@ -70,29 +92,34 @@ class AgentOrchestrator:
     def _local_rag(self, message: str) -> str:
         return self.llm.generate(self._prompt(message)).strip()
 
+    def _safe_local_fallback(self, message: str) -> str:
+        if self._is_rag_query(message):
+            return self._local_rag(message)
+        return self._local_simple(message)
+
     def respond_with_route(self, message: str) -> RouteResult:
         if self._is_planning_query(message):
             try:
-                return RouteResult(route="kimi", response=self.cloud.kimi_generate(message))
+                return RouteResult(route="kimi", reason="planning_keywords", response=self.cloud.kimi_generate(message))
             except Exception:
-                return RouteResult(route="local_fallback", response=self._local_rag(message))
+                return RouteResult(route="local_fallback", reason="kimi_unavailable", response=self._safe_local_fallback(message))
 
         if self._is_long_context_query(message):
             try:
-                return RouteResult(route="gemini", response=self.cloud.gemini_generate(message))
+                return RouteResult(route="gemini", reason="long_context_threshold", response=self.cloud.gemini_generate(message))
             except Exception:
-                return RouteResult(route="local_fallback", response=self._local_rag(message))
+                return RouteResult(route="local_fallback", reason="gemini_unavailable", response=self._safe_local_fallback(message))
 
         if self._is_complex_reasoning_query(message):
             try:
-                return RouteResult(route="groq", response=self.cloud.groq_generate(message))
+                return RouteResult(route="groq", reason="complex_reasoning_keywords", response=self.cloud.groq_generate(message))
             except Exception:
-                return RouteResult(route="local_fallback", response=self._local_rag(message))
+                return RouteResult(route="local_fallback", reason="groq_unavailable", response=self._safe_local_fallback(message))
 
         if self._is_rag_query(message):
-            return RouteResult(route="local_rag", response=self._local_rag(message))
+            return RouteResult(route="local_rag", reason="rag_keywords", response=self._local_rag(message))
 
-        return RouteResult(route="local_simple", response=self._local_simple(message))
+        return RouteResult(route="local_simple", reason="default_simple", response=self._local_simple(message))
 
     def respond(self, message: str) -> str:
         return self.respond_with_route(message).response

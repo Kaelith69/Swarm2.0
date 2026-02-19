@@ -41,6 +41,7 @@ class RagStore:
                 """
                 CREATE TABLE IF NOT EXISTS chunks (
                     id TEXT PRIMARY KEY,
+                    vector_label INTEGER UNIQUE,
                     source TEXT NOT NULL,
                     chunk_index INTEGER NOT NULL,
                     content TEXT NOT NULL,
@@ -48,6 +49,22 @@ class RagStore:
                 )
                 """
             )
+
+            columns = {
+                row["name"]
+                for row in conn.execute("PRAGMA table_info(chunks)").fetchall()
+            }
+            if "vector_label" not in columns:
+                conn.execute("ALTER TABLE chunks ADD COLUMN vector_label INTEGER")
+
+            unlabeled = conn.execute(
+                "SELECT rowid FROM chunks WHERE vector_label IS NULL ORDER BY rowid"
+            ).fetchall()
+            for new_label, row in enumerate(unlabeled):
+                conn.execute(
+                    "UPDATE chunks SET vector_label = ? WHERE rowid = ?",
+                    (new_label, row["rowid"]),
+                )
             conn.commit()
 
     def _load_or_create_index(self) -> None:
@@ -104,11 +121,12 @@ class RagStore:
 
         rows: list[tuple[str, str, int, str]] = []
         for chunk_idx, content in enumerate(chunk_list):
-            rows.append((str(uuid.uuid4()), source, chunk_idx, content))
+            label = int(labels[chunk_idx])
+            rows.append((str(uuid.uuid4()), label, source, chunk_idx, content))
 
         with self._connect() as conn:
             conn.executemany(
-                "INSERT INTO chunks (id, source, chunk_index, content) VALUES (?, ?, ?, ?)",
+                "INSERT INTO chunks (id, vector_label, source, chunk_index, content) VALUES (?, ?, ?, ?, ?)",
                 rows,
             )
             conn.commit()
@@ -127,14 +145,17 @@ class RagStore:
         score_list = distances[0].tolist()
 
         with self._connect() as conn:
+            placeholders = ",".join("?" for _ in label_list)
             db_rows = conn.execute(
-                "SELECT source, chunk_index, content FROM chunks ORDER BY rowid"
+                f"SELECT vector_label, source, chunk_index, content FROM chunks WHERE vector_label IN ({placeholders})",
+                tuple(label_list),
             ).fetchall()
+        row_by_label = {int(row["vector_label"]): row for row in db_rows}
 
         results: list[dict] = []
         for label, score in zip(label_list, score_list):
-            if 0 <= label < len(db_rows):
-                row = db_rows[label]
+            row = row_by_label.get(int(label))
+            if row is not None:
                 results.append(
                     {
                         "source": row["source"],
