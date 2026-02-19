@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1b4b"/>
+      <stop offset="100%" style="stop-color:#312e81"/>
+    </linearGradient>
+    <linearGradient id="apiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c4a6e"/>
+      <stop offset="100%" style="stop-color:#075985"/>
+    </linearGradient>
+    <linearGradient id="orchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14532d"/>
+      <stop offset="100%" style="stop-color:#166534"/>
+    </linearGradient>
+    <linearGradient id="localGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#451a03"/>
+      <stop offset="100%" style="stop-color:#78350f"/>
+    </linearGradient>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="500" y="38" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="700"
+        text-anchor="middle" fill="#e2e8f0">Swarm 2.0 — System Architecture</text>
+
+  <!-- ====== CLIENTS BOX ====== -->
+  <rect x="20" y="60" width="160" height="200" rx="10" fill="url(#clientGrad)" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="100" y="82" font-family="'Segoe UI', Arial" font-size="13" font-weight="700" text-anchor="middle" fill="#c4b5fd">Clients</text>
+
+  <!-- Telegram -->
+  <rect x="35" y="92" width="130" height="30" rx="6" fill="#0369a1"/>
+  <text x="100" y="112" font-family="monospace" font-size="11" text-anchor="middle" fill="#bae6fd">✈  Telegram</text>
+
+  <!-- Discord -->
+  <rect x="35" y="130" width="130" height="30" rx="6" fill="#4338ca"/>
+  <text x="100" y="150" font-family="monospace" font-size="11" text-anchor="middle" fill="#c7d2fe">🎮 Discord</text>
+
+  <!-- WhatsApp -->
+  <rect x="35" y="168" width="130" height="30" rx="6" fill="#15803d"/>
+  <text x="100" y="188" font-family="monospace" font-size="11" text-anchor="middle" fill="#bbf7d0">💬 WhatsApp</text>
+
+  <!-- HTTP -->
+  <rect x="35" y="206" width="130" height="30" rx="6" fill="#374151"/>
+  <text x="100" y="226" font-family="monospace" font-size="11" text-anchor="middle" fill="#9ca3af">🌐 HTTP / REST</text>
+
+  <!-- ====== FASTAPI BOX ====== -->
+  <rect x="240" y="60" width="200" height="200" rx="10" fill="url(#apiGrad)" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="340" y="82" font-family="'Segoe UI', Arial" font-size="13" font-weight="700" text-anchor="middle" fill="#67e8f9">FastAPI Layer</text>
+
+  <rect x="255" y="92" width="170" height="24" rx="5" fill="#0c4a6e"/>
+  <text x="340" y="108" font-family="monospace" font-size="10" text-anchor="middle" fill="#38bdf8">POST /webhook/telegram</text>
+  <rect x="255" y="122" width="170" height="24" rx="5" fill="#0c4a6e"/>
+  <text x="340" y="138" font-family="monospace" font-size="10" text-anchor="middle" fill="#38bdf8">POST /webhook/discord</text>
+  <rect x="255" y="152" width="170" height="24" rx="5" fill="#0c4a6e"/>
+  <text x="340" y="168" font-family="monospace" font-size="10" text-anchor="middle" fill="#38bdf8">POST /webhook/whatsapp</text>
+  <rect x="255" y="182" width="170" height="24" rx="5" fill="#0c4a6e"/>
+  <text x="340" y="198" font-family="monospace" font-size="10" text-anchor="middle" fill="#38bdf8">POST /query</text>
+  <rect x="255" y="212" width="170" height="24" rx="5" fill="#0c4a6e"/>
+  <text x="340" y="228" font-family="monospace" font-size="10" text-anchor="middle" fill="#38bdf8">GET  /health</text>
+
+  <!-- ====== ORCHESTRATOR BOX ====== -->
+  <rect x="500" y="60" width="220" height="200" rx="10" fill="url(#orchGrad)" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="610" y="82" font-family="'Segoe UI', Arial" font-size="13" font-weight="700" text-anchor="middle" fill="#86efac">AgentOrchestrator</text>
+
+  <!-- Route classifier diamond -->
+  <polygon points="610,100 650,125 610,150 570,125" fill="#052e16" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="610" y="122" font-family="monospace" font-size="9" text-anchor="middle" fill="#4ade80">Route</text>
+  <text x="610" y="135" font-family="monospace" font-size="9" text-anchor="middle" fill="#4ade80">Classifier</text>
+
+  <rect x="515" y="162" width="85" height="20" rx="4" fill="#064e3b"/>
+  <text x="557" y="175" font-family="monospace" font-size="9" text-anchor="middle" fill="#6ee7b7">local_simple</text>
+  <rect x="608" y="162" width="100" height="20" rx="4" fill="#064e3b"/>
+  <text x="658" y="175" font-family="monospace" font-size="9" text-anchor="middle" fill="#6ee7b7">local_rag</text>
+  <rect x="515" y="192" width="85" height="20" rx="4" fill="#064e3b"/>
+  <text x="557" y="205" font-family="monospace" font-size="9" text-anchor="middle" fill="#6ee7b7">groq route</text>
+  <rect x="608" y="192" width="100" height="20" rx="4" fill="#064e3b"/>
+  <text x="658" y="205" font-family="monospace" font-size="9" text-anchor="middle" fill="#6ee7b7">gemini route</text>
+  <rect x="555" y="222" width="110" height="20" rx="4" fill="#064e3b"/>
+  <text x="610" y="235" font-family="monospace" font-size="9" text-anchor="middle" fill="#6ee7b7">kimi route</text>
+
+  <!-- ====== LOCAL INFERENCE BOX ====== -->
+  <rect x="20" y="320" width="420" height="200" rx="10" fill="url(#localGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="230" y="342" font-family="'Segoe UI', Arial" font-size="13" font-weight="700" text-anchor="middle" fill="#fde68a">Local Inference Stack</text>
+
+  <!-- llama.cpp -->
+  <rect x="35" y="355" width="120" height="60" rx="7" fill="#292524"/>
+  <text x="95" y="378" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle" fill="#fbbf24">llama.cpp</text>
+  <text x="95" y="394" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">subprocess runner</text>
+  <text x="95" y="408" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">llama-cli binary</text>
+
+  <!-- GGUF model -->
+  <rect x="175" y="355" width="120" height="60" rx="7" fill="#292524"/>
+  <text x="235" y="378" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle" fill="#fbbf24">GGUF Model</text>
+  <text x="235" y="394" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">Gemma 2 2B</text>
+  <text x="235" y="408" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">Q4_K_M ~ 1.5GB</text>
+
+  <!-- sentence-transformers -->
+  <rect x="315" y="355" width="110" height="60" rx="7" fill="#292524"/>
+  <text x="370" y="372" font-family="monospace" font-size="9" font-weight="700" text-anchor="middle" fill="#fbbf24">sentence-</text>
+  <text x="370" y="384" font-family="monospace" font-size="9" font-weight="700" text-anchor="middle" fill="#fbbf24">transformers</text>
+  <text x="370" y="400" font-family="monospace" font-size="8" text-anchor="middle" fill="#d97706">all-MiniLM-L6-v2</text>
+  <text x="370" y="412" font-family="monospace" font-size="8" text-anchor="middle" fill="#d97706">384-dim embeddings</text>
+
+  <!-- hnswlib -->
+  <rect x="35" y="430" width="120" height="55" rx="7" fill="#1c1917" stroke="#d97706" stroke-width="1"/>
+  <text x="95" y="452" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle" fill="#fbbf24">hnswlib</text>
+  <text x="95" y="468" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">HNSW vector index</text>
+  <text x="95" y="480" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">cosine · dim=384</text>
+
+  <!-- SQLite -->
+  <rect x="175" y="430" width="120" height="55" rx="7" fill="#1c1917" stroke="#d97706" stroke-width="1"/>
+  <text x="235" y="452" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle" fill="#fbbf24">SQLite</text>
+  <text x="235" y="468" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">chunk metadata</text>
+  <text x="235" y="480" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">source · content</text>
+
+  <!-- JSON meta -->
+  <rect x="315" y="430" width="110" height="55" rx="7" fill="#1c1917" stroke="#d97706" stroke-width="1"/>
+  <text x="370" y="452" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle" fill="#fbbf24">index_meta</text>
+  <text x="370" y="468" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">max_elements</text>
+  <text x="370" y="480" font-family="monospace" font-size="9" text-anchor="middle" fill="#d97706">current_count</text>
+
+  <!-- ====== CLOUD PROVIDERS BOX ====== -->
+  <rect x="500" y="320" width="480" height="200" rx="10" fill="url(#cloudGrad)" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="740" y="342" font-family="'Segoe UI', Arial" font-size="13" font-weight="700" text-anchor="middle" fill="#93c5fd">Cloud Providers</text>
+
+  <!-- Groq -->
+  <rect x="515" y="355" width="135" height="70" rx="7" fill="#0a2540"/>
+  <text x="582" y="378" font-family="monospace" font-size="12" font-weight="700" text-anchor="middle" fill="#4ade80">⚡ Groq</text>
+  <text x="582" y="396" font-family="monospace" font-size="9" text-anchor="middle" fill="#86efac">llama-3.1-8b-instant</text>
+  <text x="582" y="410" font-family="monospace" font-size="9" text-anchor="middle" fill="#86efac">complex reasoning</text>
+  <text x="582" y="422" font-family="monospace" font-size="9" text-anchor="middle" fill="#86efac">0.1 – 0.5 s latency</text>
+
+  <!-- Gemini -->
+  <rect x="668" y="355" width="135" height="70" rx="7" fill="#0a2540"/>
+  <text x="735" y="378" font-family="monospace" font-size="12" font-weight="700" text-anchor="middle" fill="#67e8f9">✨ Gemini</text>
+  <text x="735" y="396" font-family="monospace" font-size="9" text-anchor="middle" fill="#a5f3fc">gemini-1.5-flash</text>
+  <text x="735" y="410" font-family="monospace" font-size="9" text-anchor="middle" fill="#a5f3fc">long context</text>
+  <text x="735" y="422" font-family="monospace" font-size="9" text-anchor="middle" fill="#a5f3fc">1 – 3 s latency</text>
+
+  <!-- Kimi -->
+  <rect x="821" y="355" width="135" height="70" rx="7" fill="#0a2540"/>
+  <text x="888" y="378" font-family="monospace" font-size="12" font-weight="700" text-anchor="middle" fill="#c4b5fd">🌙 Kimi</text>
+  <text x="888" y="396" font-family="monospace" font-size="9" text-anchor="middle" fill="#ddd6fe">moonshot-v1-8k</text>
+  <text x="888" y="410" font-family="monospace" font-size="9" text-anchor="middle" fill="#ddd6fe">planning tasks</text>
+  <text x="888" y="422" font-family="monospace" font-size="9" text-anchor="middle" fill="#ddd6fe">1 – 4 s latency</text>
+
+  <!-- Fallback label -->
+  <rect x="540" y="440" width="400" height="24" rx="5" fill="#1e3a5f"/>
+  <text x="740" y="456" font-family="monospace" font-size="10" text-anchor="middle" fill="#93c5fd">↩ All cloud routes fall back to local on error / missing key</text>
+
+  <!-- ====== ARROWS ====== -->
+  <!-- Clients → FastAPI -->
+  <line x1="180" y1="160" x2="238" y2="160" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- FastAPI → Orchestrator -->
+  <line x1="440" y1="160" x2="498" y2="160" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Orchestrator → Local Inference -->
+  <line x1="557" y1="250" x2="230" y2="318" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowAmber)"/>
+  <text x="360" y="298" font-family="monospace" font-size="9" fill="#fbbf24">local routes</text>
+
+  <!-- Orchestrator → Cloud Providers -->
+  <line x1="660" y1="250" x2="740" y2="318" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowBlue)"/>
+  <text x="720" y="298" font-family="monospace" font-size="9" fill="#3b82f6">cloud routes</text>
+
+  <!-- Legend -->
+  <rect x="20" y="540" width="460" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="250" y="558" font-family="'Segoe UI', Arial" font-size="12" font-weight="700" text-anchor="middle" fill="#94a3b8">Priority Order (first match wins)</text>
+  <text x="35" y="578" font-family="monospace" font-size="10" fill="#c4b5fd">1. kimi</text>
+  <text x="100" y="578" font-family="monospace" font-size="10" fill="#67e8f9">→ 2. gemini</text>
+  <text x="200" y="578" font-family="monospace" font-size="10" fill="#6ee7b7">→ 3. groq</text>
+  <text x="285" y="578" font-family="monospace" font-size="10" fill="#fde68a">→ 4. local_rag</text>
+  <text x="380" y="578" font-family="monospace" font-size="10" fill="#9ca3af">→ 5. local_simple</text>
+  <text x="35" y="594" font-family="monospace" font-size="9" fill="#64748b">Each cloud route falls back to local_fallback on error</text>
+</svg>
