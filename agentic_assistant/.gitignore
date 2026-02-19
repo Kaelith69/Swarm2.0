@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual env
+.venv/
+venv/
+
+# Environment
+.env
+env/
+
+# Models and data
+/models/
+/data/
+*.gguf
+*.bin
+
+# Logs
+.log
+
+# Editor
+.vscode/
+*.swp
+Thumbs.db

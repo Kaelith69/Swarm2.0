@@ -1,0 +1,26 @@
+[Unit]
+Description=Agentic Assistant (Raspberry Pi)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/agentic-assistant
+EnvironmentFile=/opt/agentic-assistant/.env
+Environment=PYTHONUNBUFFERED=1
+Environment=OMP_NUM_THREADS=1
+ExecStart=/usr/bin/python3 -m assistant.agent
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/agentic-assistant/data
+LimitNOFILE=65535
+Nice=5
+
+[Install]
+WantedBy=multi-user.target
