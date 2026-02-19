@@ -9,10 +9,13 @@ Table of contents
 - Development setup (local)
 - Packaging for Raspberry Pi 5
 - Installing on Raspberry Pi 5 (step-by-step)
+- Path conventions (Windows vs Pi)
 - Models and storage
 - RAG data ingestion
 - Messaging credentials: where to get them and how to place them
+- Cloud credentials: where to get them and how to place them
 - Configuration and tuning values (what and why)
+- One-command start + smoke test
 - Security best-practices
 - Publishing this repository to GitHub
 - Troubleshooting & debugging
@@ -110,6 +113,15 @@ sudo systemctl status agent -l
 
 8. (Optional) Configure Nginx as a reverse proxy using `deploy/nginx-agent.conf` and restart nginx.
 
+## Path conventions (Windows vs Pi)
+
+- Raspberry Pi runtime must use Linux paths (example: `/home/ubuntu/models/model.gguf`).
+- Windows local runtime must use Windows paths (example: `C:\Users\name\Downloads\model.gguf`).
+- Avoid mixed values. If `MODEL_PATH` is Windows but app runs on Linux, model loading fails.
+- Recommended Pi values:
+	- `MODEL_PATH=/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf`
+	- `LLAMA_MAIN_PATH=/home/ubuntu/llama.cpp/build/bin/llama-cli`
+
 ## Models and storage
 
 - Models: Use a quantized GGUF model (e.g., Gemma 2 2B Q4_K_M) for smoother inference on Pi.
@@ -163,6 +175,26 @@ WhatsApp (Meta Cloud API)
 Where to place
 - Copy `.env.example` to `.env` and fill the values. The service reads runtime settings from `.env` via `python-dotenv`.
 
+## Cloud credentials: where to get them and where to place them
+
+Groq
+- Portal: `https://console.groq.com/keys`
+- `.env`: `GROQ_API_KEY=...`
+- Use for: complex reasoning route
+
+Gemini
+- Portal: Google AI Studio / Gemini API key console
+- `.env`: `GEMINI_API_KEY=...`
+- Use for: long-context route
+
+Kimi (Moonshot)
+- Portal: Moonshot AI developer console
+- `.env`:
+	- `KIMI_API_KEY=...`
+	- `KIMI_BASE_URL=https://api.moonshot.ai/v1`
+	- `KIMI_MODEL=moonshot-v1-8k`
+- Use for: planning route
+
 ## Configuration and tuning values (what and why)
 
 - `INFERENCE_THREADS` (default 4): number of threads for `llama.cpp` inference. Start conservative (2–4) on Pi 5 and increase if temperature and performance allow.
@@ -195,6 +227,20 @@ Where to get cloud API keys
 Tuning strategy
 - If inference is slow or the Pi overheats, lower `INFERENCE_THREADS` and `LLM_CONTEXT_TOKENS` and ensure `llama.cpp` is built with optimizations.
 - Keep RAG files on NVMe, and consider limiting `ef` and `M` parameters in HNSW index for lower memory usage.
+
+## One-command start + smoke test
+
+For Raspberry Pi deployment, run:
+
+```bash
+bash scripts/pi_start_and_check.sh
+```
+
+What it does:
+- Starts `assistant.agent` in the background
+- Waits until `/health` is ready
+- Executes one `/query` check
+- Prints responses and exits
 
 ## Security best-practices
 
