@@ -15,9 +15,9 @@
 # ---------------------------------------------------------------------------
 
 param(
-    [string]$AppDir   = $PSScriptRoot | Split-Path -Parent,
-    [string]$Host     = $env:HOST ?? "127.0.0.1",
-    [int]   $Port     = if ($env:PORT) { [int]$env:PORT } else { 8000 }
+    [string]$AppDir    = $PSScriptRoot | Split-Path -Parent,
+    [string]$BindHost  = if ($env:HOST) { $env:HOST } else { "127.0.0.1" },
+    [int]   $Port      = if ($env:PORT) { [int]$env:PORT } else { 8000 }
 )
 
 Set-Location $AppDir
@@ -38,7 +38,7 @@ if (-not (Test-Path $VenvPython)) {
 # Set PYTHONPATH so the src/ package is importable
 $env:PYTHONPATH = Join-Path $AppDir "src"
 
-Write-Host "[INFO] Starting Agentic Assistant on ${Host}:${Port} ..."
+Write-Host "[INFO] Starting Agentic Assistant on ${BindHost}:${Port} ..."
 Write-Host "[INFO] Logs → $env:TEMP\agentic-assistant.log"
 
 # Start server in background
@@ -56,7 +56,7 @@ $ready = $false
 for ($i = 1; $i -le 30; $i++) {
     Start-Sleep -Seconds 1
     try {
-        $resp = Invoke-WebRequest -Uri "http://${Host}:${Port}/health" -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop
+        $resp = Invoke-WebRequest -Uri "http://${BindHost}:${Port}/health" -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop
         if ($resp.StatusCode -eq 200) { $ready = $true; break }
     } catch { }
 }
@@ -69,14 +69,14 @@ if (-not $ready) {
 }
 
 Write-Host "[OK] /health responded"
-Invoke-RestMethod "http://${Host}:${Port}/health" | ConvertTo-Json -Depth 3
+Invoke-RestMethod "http://${BindHost}:${Port}/health" | ConvertTo-Json -Depth 3
 
 # Quick smoke test
 Write-Host ""
 Write-Host "[INFO] Running /query smoke test ..."
 try {
     $result = Invoke-RestMethod -Method POST `
-        -Uri "http://${Host}:${Port}/query" `
+        -Uri "http://${BindHost}:${Port}/query" `
         -ContentType "application/json" `
         -Body '{"message":"Hello, who are you?"}' `
         -TimeoutSec 180

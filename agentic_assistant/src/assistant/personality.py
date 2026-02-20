@@ -38,20 +38,6 @@ def _load_yaml(path: Path) -> dict:
         return {}
     try:
         import yaml  # type: ignore[import]
-    except ImportError:
-        try:
-            # Minimal fallback: stdlib tomllib is not present in all versions;
-            # use a very small hand-rolled YAML-key:value parser as last resort.
-            result: dict = {}
-            for line in path.read_text(encoding="utf-8").splitlines():
-                if ":" in line and not line.strip().startswith("#"):
-                    k, _, v = line.partition(":")
-                    result[k.strip()] = v.strip()
-            return result
-        except Exception:  # noqa: BLE001
-            logger.warning("Could not parse personality file %s", path)
-            return {}
-    try:
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
         return data if isinstance(data, dict) else {}
     except Exception as exc:  # noqa: BLE001
