@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import json
+
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Header, HTTPException, Request
 from pydantic import BaseModel
@@ -13,6 +16,7 @@ from assistant.memory import ConversationMemory
 from assistant.messaging.parsers import parse_discord, parse_telegram
 from assistant.messaging.senders import OutboundSenders
 from assistant.orchestrator import AgentOrchestrator
+from assistant.personality import Personality
 from assistant.rag.store import RagStore
 
 logger = logging.getLogger(__name__)
@@ -51,11 +55,14 @@ memory = ConversationMemory(
     max_turns=settings.memory_max_turns,
 )
 
+personality = Personality.from_settings(settings)
+
 orchestrator = AgentOrchestrator(
     rag=rag_store,
     llm=llm_runner,
     cloud=cloud_router,
     memory=memory,
+    personality=personality,
     top_k=settings.rag_top_k,
     long_context_threshold_chars=settings.long_context_threshold_chars,
     short_message_threshold_chars=settings.local_short_threshold_chars,
@@ -67,7 +74,49 @@ senders = OutboundSenders(
     discord_bot_token=settings.discord_bot_token,
 )
 
-app = FastAPI(title="Pi Agentic Assistant", version="2.0.0")
+# ---------------------------------------------------------------------------
+# Polling-bot background tasks (only when BOT_MODE=polling)
+# ---------------------------------------------------------------------------
+
+_bot_tasks: list[asyncio.Task] = []  # type: ignore[type-arg]
+
+
+@asynccontextmanager
+async def _lifespan(application: FastAPI):  # type: ignore[type-arg]
+    """Start polling bots on startup; cancel them cleanly on shutdown."""
+    if settings.bot_mode.lower() == "polling":
+        if settings.telegram_bot_token:
+            from assistant.bots.telegram_polling import TelegramPoller
+            tg_poller = TelegramPoller(
+                token=settings.telegram_bot_token,
+                orchestrator=orchestrator,
+            )
+            _bot_tasks.append(asyncio.create_task(tg_poller.run(), name="telegram_polling"))
+            logger.info("Telegram polling bot started")
+
+        if settings.discord_bot_token:
+            from assistant.bots.discord_bot import DiscordBot
+            dc_bot = DiscordBot(
+                token=settings.discord_bot_token,
+                orchestrator=orchestrator,
+            )
+            _bot_tasks.append(asyncio.create_task(dc_bot.run(), name="discord_bot"))
+            logger.info("Discord gateway bot started")
+    else:
+        logger.info("BOT_MODE=%s — webhook endpoints active", settings.bot_mode)
+
+    yield  # application is running
+
+    for task in _bot_tasks:
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
+    _bot_tasks.clear()
+
+
+app = FastAPI(title="Agentic Assistant", version="2.0.0", lifespan=_lifespan)
 
 
 # ---------------------------------------------------------------------------
@@ -111,6 +160,8 @@ def health() -> dict:
         "model_path": str(settings.model_path),
         "llama_main_path": str(settings.llama_main_path),
         "use_llm_routing": settings.use_llm_routing,
+        "bot_mode": settings.bot_mode,
+        "agent_name": personality.name,
         "hybrid": {
             "groq_enabled": cloud_router.is_groq_available(),
             "gemini_enabled": cloud_router.is_gemini_available(),
