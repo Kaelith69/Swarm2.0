@@ -77,7 +77,8 @@ Safety defaults:
 ### Discord
 - `https://discord.com/developers/applications` → create app/bot → copy token
 - Put in `.env`: `DISCORD_BOT_TOKEN=...`
-- Optional inbound bearer check: `DISCORD_BEARER_TOKEN=...`
+- (Recommended) Interactions verification: `DISCORD_PUBLIC_KEY=` from "General Information" tab
+- (Legacy) Optional inbound bearer check: `DISCORD_BEARER_TOKEN=...`
 
 ## 5) Routing behavior — 4-tier cascade
 

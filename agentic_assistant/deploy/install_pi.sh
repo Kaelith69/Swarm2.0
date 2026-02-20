@@ -21,7 +21,7 @@ sudo apt-get update -q
 sudo apt-get install -y \
   python3 python3-pip python3-venv python3-dev \
   git build-essential cmake \
-  libopenblas-dev libffi-dev libssl-dev \
+  libopenblas-dev libffi-dev libssl-dev libsodium-dev \
   nginx curl
 
 echo "==> [2/6] Creating application directory"

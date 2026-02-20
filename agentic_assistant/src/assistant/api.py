@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import logging
+import json
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Request
 from pydantic import BaseModel
 
 from assistant.config import settings
@@ -168,15 +169,43 @@ def telegram_webhook(
 # ---------------------------------------------------------------------------
 
 @app.post("/webhook/discord")
-def discord_webhook(
-    payload: dict,
-    authorization: str | None = Header(default=None),
-) -> dict:
+async def discord_webhook(request: Request) -> dict:
+    body_bytes = await request.body()
+    try:
+        payload = json.loads(body_bytes)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="invalid json")
+
     # Discord sends a PING (type 1) when registering the webhook → must PONG.
     if payload.get("type") == 1:
         return {"type": 1}
 
+    # Verify signature if public key is configured (RECOMMENDED for production)
+    if settings.discord_public_key:
+        try:
+            from nacl.signing import VerifyKey
+            from nacl.exceptions import BadSignatureError
+        except ImportError:
+            logger.error("PyNaCl not installed but DISCORD_PUBLIC_KEY is set")
+            raise HTTPException(status_code=500, detail="server configuration error")
+
+        signature = request.headers.get("X-Signature-Ed25519")
+        timestamp = request.headers.get("X-Signature-Timestamp")
+        if not signature or not timestamp:
+            raise HTTPException(status_code=401, detail="missing signature headers")
+
+        verify_key = VerifyKey(bytes.fromhex(settings.discord_public_key))
+        try:
+            verify_key.verify(
+                f"{timestamp}{body_bytes.decode()}".encode(),
+                bytes.fromhex(signature)
+            )
+        except (BadSignatureError, ValueError):
+            raise HTTPException(status_code=401, detail="invalid request signature")
+
+    # Fallback legacy check
     if settings.discord_bearer_token:
+        authorization = request.headers.get("Authorization")
         if authorization != f"Bearer {settings.discord_bearer_token}":
             raise HTTPException(status_code=401, detail="invalid discord token")
 
@@ -188,6 +217,15 @@ def discord_webhook(
     text = _validate_message_or_400(text)
     result = orchestrator.respond_with_route(text, user_id=f"dc:{user_id}")
 
+    # If this is a Discord Interaction (type 2), we should return the response directly
+    # to avoid "Interaction Failed" errors in the client.
+    if payload.get("type") == 2:
+        return {
+            "type": 4,  # CHANNEL_MESSAGE_WITH_SOURCE
+            "data": {"content": result.response[:2000]}
+        }
+
+    # Otherwise (e.g. custom webhook), rely on the REST API to send the message.
     channel_id = str(payload.get("channel_id", ""))
     outbound = (
         senders.send_discord(channel_id=channel_id, text=result.response)

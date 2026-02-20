@@ -83,6 +83,8 @@ class Settings:
     telegram_secret: str = os.getenv("TELEGRAM_SECRET", "")
     discord_bot_token: str = os.getenv("DISCORD_BOT_TOKEN", "")
     discord_bearer_token: str = os.getenv("DISCORD_BEARER_TOKEN", "")
+    discord_public_key: str = os.getenv("DISCORD_PUBLIC_KEY", "")
+    discord_public_key: str = os.getenv("DISCORD_PUBLIC_KEY", "")
 
 
 settings = Settings()

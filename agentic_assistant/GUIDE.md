@@ -164,7 +164,8 @@ Discord
 - What: `DISCORD_BOT_TOKEN` from Discord Developer Portal.
 - How to get: Create an application in https://discord.com/developers → Bot → Create Bot → copy token.
 - Place in `.env` as `DISCORD_BOT_TOKEN=<token>`.
-- Optional inbound verification: `DISCORD_BEARER_TOKEN` is a user-configurable token you can require in the `Authorization` header for incoming webhooks.
+- **Public Key**: From "General Information" tab, copy "Public Key" -> `.env` as `DISCORD_PUBLIC_KEY=<key>`. (Required for Slash Commands).
+- Legacy inbound verification: `DISCORD_BEARER_TOKEN` is optional for simple webhooks.
 
 Where to place
 - Copy `.env.example` to `.env` and fill the values. The service reads runtime settings from `.env` via `python-dotenv`.

@@ -115,7 +115,9 @@ KIMI_API_KEY=
 
 # --- Messaging webhooks (optional) ---
 TELEGRAM_BOT_TOKEN=
+TELEGRAM_SECRET=
 DISCORD_BOT_TOKEN=
+DISCORD_PUBLIC_KEY=
 ```
 
 ## 7) Activate venv and run local server
