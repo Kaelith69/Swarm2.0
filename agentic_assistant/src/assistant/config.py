@@ -35,11 +35,11 @@ class Settings:
     host: str = os.getenv("HOST", "0.0.0.0")
     port: int = _env_int("PORT", 8000)
 
-    model_path: Path = Path(os.getenv("MODEL_PATH", "/home/ubuntu/models/gemma2b.gguf"))
+    model_path: Path = Path(os.getenv("MODEL_PATH", str(Path.home() / "models" / "gemma-2-2b-it-Q4_K_M.gguf")))
     llama_main_path: Path = Path(
-        os.getenv("LLAMA_MAIN_PATH", "/home/ubuntu/llama.cpp/build/bin/llama-cli")
+        os.getenv("LLAMA_MAIN_PATH", str(Path.home() / "llama.cpp" / "build" / "bin" / "llama-cli"))
     )
-    inference_threads: int = _env_int("INFERENCE_THREADS", max(1, min(4, (os.cpu_count() or 4) - 1)))
+    inference_threads: int = _env_int("INFERENCE_THREADS", max(1, os.cpu_count() or 4))
     llm_context_tokens: int = _env_int("LLM_CONTEXT_TOKENS", 2048)
     max_response_tokens: int = _env_int("MAX_RESPONSE_TOKENS", 256)
     llm_temperature: float = _env_float("LLM_TEMPERATURE", 0.2)

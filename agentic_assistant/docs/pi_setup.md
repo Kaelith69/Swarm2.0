@@ -8,7 +8,12 @@ Hardware and OS
 - Raspberry Pi 5 (8GB)
 - NVMe SSD (>= 128GB) recommended
 - Active cooling + official 27W PSU
-- Ubuntu Server 24.04 LTS (ARM64)
+- Raspberry Pi OS 64-bit (Bookworm) **or** Ubuntu Server 24.04 LTS (ARM64)
+
+> **Note on the default user:**
+> - Raspberry Pi OS uses `pi` as the default user (`/home/pi`).
+> - Ubuntu Server uses `ubuntu` as the default user (`/home/ubuntu`).
+> Replace `pi` with your actual username in all paths below if needed.
 
 Access and tooling
 - SSH access to the Pi
@@ -18,7 +23,8 @@ Access and tooling
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y git build-essential cmake python3-venv python3-pip
+sudo apt install -y git build-essential cmake python3-venv python3-pip \
+    python3-dev libopenblas-dev pkg-config
 ```
 
 ## 2) Project directory
@@ -37,20 +43,20 @@ Copy this repository into `/opt/agentic-assistant` (via `scp`, `rsync`, or `git 
 bash deploy/install_pi.sh
 ```
 
-This creates a venv at `.venv` and installs dependencies.
+This creates a venv at `.venv`, installs all Python dependencies, and builds llama.cpp automatically.
 
 ## 4) Build llama.cpp
 
+`install_pi.sh` handles the build automatically. To rebuild manually:
+
 ```bash
-cd /home/ubuntu
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-cmake -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j
+cd "$HOME/llama.cpp"
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=ON
+cmake --build build -j4
 ```
 
 Verify the CLI exists at:
-- `/home/ubuntu/llama.cpp/build/bin/llama-cli`
+- `$HOME/llama.cpp/build/bin/llama-cli`
 
 ## 5) Download a GGUF model
 
@@ -58,7 +64,7 @@ Recommended for Pi 5:
 - Gemma 2 2B Q4_K_M (or similar quantized GGUF)
 
 Example location:
-- `/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf`
+- `$HOME/models/gemma-2-2b-it-Q4_K_M.gguf`
 
 ## 6) Configure .env
 
@@ -68,9 +74,9 @@ cp .env.example .env
 chmod 600 .env
 ```
 
-Edit `.env` (Linux paths only on the Pi):
-- `MODEL_PATH=/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf`
-- `LLAMA_MAIN_PATH=/home/ubuntu/llama.cpp/build/bin/llama-cli`
+Edit `.env` (Linux paths only on the Pi; `.env` files do not expand shell variables, use literal paths):
+- `MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf`
+- `LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli`
 - `INFERENCE_THREADS=4`
 - `LLM_CONTEXT_TOKENS=2048`
 - `MAX_RESPONSE_TOKENS=256`
@@ -141,6 +147,8 @@ python scripts/webhook_smoke_test.py \
 
 ## 11) systemd service (optional)
 
+> **Note:** `deploy/agent.service` uses `User=pi`. Change this to your actual username (e.g. `ubuntu`) if needed before copying.
+
 ```bash
 sudo cp deploy/agent.service /etc/systemd/system/agent.service
 sudo systemctl daemon-reload
@@ -181,3 +189,4 @@ Add HTTPS with Certbot or your preferred TLS setup before exposing public webhoo
 - llama.cpp not found: verify `LLAMA_MAIN_PATH`.
 - RAG errors: delete `RAG_DATA_DIR` and re-run ingestion.
 - Cloud routes not used: check `/health` for `groq_enabled`, `gemini_enabled`, `kimi_enabled`.
+- `hnswlib` build fails: ensure `python3-dev`, `libopenblas-dev`, and `pkg-config` are installed.

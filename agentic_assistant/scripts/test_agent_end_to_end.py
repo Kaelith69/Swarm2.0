@@ -7,10 +7,11 @@ from pathlib import Path
 from typing import Any, cast
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
+SRC_DIR = ROOT_DIR / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
-from src.assistant.orchestrator import AgentOrchestrator  # noqa: E402
+from assistant.orchestrator import AgentOrchestrator  # noqa: E402
 
 
 class FakeRag:

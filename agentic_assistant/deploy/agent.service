@@ -5,13 +5,14 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=ubuntu
-Group=ubuntu
+User=pi
+Group=pi
 WorkingDirectory=/opt/agentic-assistant
 EnvironmentFile=/opt/agentic-assistant/.env
 Environment=PYTHONUNBUFFERED=1
 Environment=OMP_NUM_THREADS=1
-ExecStart=/usr/bin/python3 -m assistant.agent
+Environment=PYTHONPATH=/opt/agentic-assistant/src
+ExecStart=/opt/agentic-assistant/.venv/bin/python -m assistant.agent
 Restart=always
 RestartSec=3
 NoNewPrivileges=true

@@ -5,8 +5,8 @@ from pathlib import Path
 
 from pypdf import PdfReader
 
-from src.assistant.config import settings
-from src.assistant.rag.store import RagStore
+from assistant.config import settings
+from assistant.rag.store import RagStore
 
 
 def chunk_text(text: str, chunk_size_words: int = 500) -> list[str]:

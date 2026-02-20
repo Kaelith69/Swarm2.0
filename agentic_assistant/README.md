@@ -12,7 +12,10 @@ Recommended:
 - NVMe SSD (>= 128GB)
 - Official 27W PSU
 - Active cooling
-- Ubuntu Server 24.04 LTS ARM64
+- Raspberry Pi OS 64-bit (Bookworm) or Ubuntu Server 24.04 LTS ARM64
+
+> **Default user:** Raspberry Pi OS uses `pi` (`/home/pi`); Ubuntu Server uses `ubuntu` (`/home/ubuntu`).
+> Replace paths below with your actual home directory.
 
 Why:
 - NVMe improves model/RAG I/O
@@ -36,13 +39,14 @@ chmod 600 .env
 ```
 
 ### Path rules (important)
-- On Raspberry Pi/Linux, use Linux paths like `/home/ubuntu/...`
+- On Raspberry Pi OS, use Linux paths like `/home/pi/...`
+- On Ubuntu Server, use Linux paths like `/home/ubuntu/...`
 - On Windows local testing, use Windows paths like `C:\Users\...`
 - Do not mix Windows and Linux paths in the same runtime
 
-Minimum local runtime values:
-- `MODEL_PATH=/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf`
-- `LLAMA_MAIN_PATH=/home/ubuntu/llama.cpp/build/bin/llama-cli`
+Minimum local runtime values (`.env` files do not expand `$HOME`; use literal paths):
+- `MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf` (Pi OS) or `/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf` (Ubuntu)
+- `LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli` (Pi OS) or `/home/ubuntu/llama.cpp/build/bin/llama-cli` (Ubuntu)
 
 Pi-safe defaults:
 - `INFERENCE_THREADS=4`
