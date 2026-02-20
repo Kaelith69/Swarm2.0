@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 
 from assistant.llm.cloud_router import CloudRouter
 from assistant.llm.llama_cpp_runner import LlamaCppRunner
 from assistant.rag.store import RagStore
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -12,6 +15,26 @@ class RouteResult:
     route: str
     reason: str
     response: str
+
+
+# Maximum characters of the user message forwarded to the local LLM for routing.
+_MAX_ROUTING_MESSAGE_CHARS = 500
+
+# Prompt sent to the local LLM to decide which cloud API should answer.
+_ROUTE_PROMPT = (
+    "You are a routing assistant. Your only job is to decide which AI API to use "
+    "for the following user message. Reply with EXACTLY one word from this list: "
+    "groq, gemini, kimi. No punctuation, no explanation.\n\n"
+    "Guidelines:\n"
+    "- groq: general questions, reasoning, analysis, step-by-step explanations\n"
+    "- gemini: long documents, large context, summaries of lengthy content\n"
+    "- kimi: planning, roadmaps, strategies, workflows, project organisation\n\n"
+    "User message: {message}\n"
+    "Route:"
+)
+
+_VALID_ROUTES = frozenset({"groq", "gemini", "kimi"})
+_ALL_ROUTES = ("groq", "gemini", "kimi")
 
 
 class AgentOrchestrator:
@@ -29,97 +52,97 @@ class AgentOrchestrator:
         self.top_k = top_k
         self.long_context_threshold_chars = long_context_threshold_chars
 
-    def _is_rag_query(self, message: str) -> bool:
-        tokens = (
-            "doc",
-            "document",
-            "source",
-            "knowledge",
-            "from file",
-            "based on",
-            "according to",
-            "reference",
-            "cite",
-            "context",
-        )
+    # ------------------------------------------------------------------
+    # Routing: local LLM decides which cloud API to call
+    # ------------------------------------------------------------------
+
+    def _decide_route(self, message: str) -> tuple[str, str]:
+        """Ask the local LLM to choose a cloud API.
+
+        Returns (route, reason) where route is 'groq', 'gemini', or 'kimi'.
+        Falls back to keyword-based routing when the local LLM is unavailable.
+        """
+        try:
+            prompt = _ROUTE_PROMPT.format(message=message[:_MAX_ROUTING_MESSAGE_CHARS])
+            raw = self.llm.generate(prompt).strip().lower()
+            first_word = raw.split()[0] if raw.split() else ""
+            if first_word in _VALID_ROUTES:
+                return first_word, "local_llm_routing"
+        except Exception as exc:
+            logger.warning("Local LLM routing failed, using keyword fallback: %s", exc)
+        return self._keyword_route(message), "keyword_fallback_routing"
+
+    def _keyword_route(self, message: str) -> str:
+        """Keyword-based routing used when the local LLM is unavailable."""
         lowered = message.lower()
-        return any(token in lowered for token in tokens)
+        if any(t in lowered for t in ("plan", "roadmap", "strategy", "orchestrate", "workflow")):
+            return "kimi"
+        if len(message) >= self.long_context_threshold_chars:
+            return "gemini"
+        return "groq"
 
-    def _is_planning_query(self, message: str) -> bool:
-        tokens = ("plan", "roadmap", "strategy", "orchestrate", "workflow")
-        lowered = message.lower()
-        return any(token in lowered for token in tokens)
+    # ------------------------------------------------------------------
+    # RAG context enrichment
+    # ------------------------------------------------------------------
 
-    def _is_complex_reasoning_query(self, message: str) -> bool:
-        tokens = (
-            "analyze",
-            "compare",
-            "tradeoff",
-            "reason",
-            "justify",
-            "deep",
-            "pros and cons",
-            "step by step",
-            "root cause",
-        )
-        lowered = message.lower()
-        return any(token in lowered for token in tokens)
-
-    def _is_long_context_query(self, message: str) -> bool:
-        return len(message) >= self.long_context_threshold_chars
-
-    def _prompt(self, message: str) -> str:
+    def _enrich_with_rag(self, message: str) -> str:
+        """Prepend relevant RAG context chunks to the message for the cloud API."""
         context_chunks = self.rag.query(message, top_k=self.top_k)
-        if context_chunks:
-            context = "\n\n".join(
-                f"[{item['source']} #{item['chunk_index']}] {item['content']}"
-                for item in context_chunks
-            )
-        else:
-            context = "No retrieved context available."
-
+        if not context_chunks:
+            return message
+        context = "\n\n".join(
+            f"[{item['source']} #{item['chunk_index']}] {item['content']}"
+            for item in context_chunks
+        )
         return (
-            "You are a concise assistant running locally on Raspberry Pi. "
-            "Answer using the provided context when useful.\n\n"
+            "Answer using the following context when useful.\n\n"
             f"Context:\n{context}\n\n"
-            f"User: {message}\n"
-            "Assistant:"
+            f"User: {message}"
         )
 
-    def _local_simple(self, message: str) -> str:
-        return self.llm.generate(f"User: {message}\nAssistant:").strip()
+    # ------------------------------------------------------------------
+    # Cloud API dispatch
+    # ------------------------------------------------------------------
 
-    def _local_rag(self, message: str) -> str:
-        return self.llm.generate(self._prompt(message)).strip()
+    def _call_cloud(self, route: str, prompt: str) -> str:
+        if route == "gemini":
+            return self.cloud.gemini_generate(prompt)
+        if route == "kimi":
+            return self.cloud.kimi_generate(prompt)
+        return self.cloud.groq_generate(prompt)
 
-    def _safe_local_fallback(self, message: str) -> str:
-        if self._is_rag_query(message):
-            return self._local_rag(message)
-        return self._local_simple(message)
+    # ------------------------------------------------------------------
+    # Public interface
+    # ------------------------------------------------------------------
 
     def respond_with_route(self, message: str) -> RouteResult:
-        if self._is_planning_query(message):
+        """Route via local LLM, call the chosen cloud API, send back the response."""
+        route, reason = self._decide_route(message)
+
+        # Enrich the user message with any relevant RAG context.
+        prompt = self._enrich_with_rag(message)
+
+        # Try the chosen API first, then fall back to the remaining ones.
+        fallback_order = [r for r in _ALL_ROUTES if r != route]
+        for candidate in [route] + fallback_order:
             try:
-                return RouteResult(route="kimi", reason="planning_keywords", response=self.cloud.kimi_generate(message))
-            except Exception:
-                return RouteResult(route="local_fallback", reason="kimi_unavailable", response=self._safe_local_fallback(message))
+                response = self._call_cloud(candidate, prompt)
+                if candidate != route:
+                    reason = f"fallback_from_{route}"
+                    route = candidate
+                return RouteResult(route=route, reason=reason, response=response)
+            except Exception as exc:
+                logger.warning("Cloud API '%s' failed: %s", candidate, exc)
+                continue
 
-        if self._is_long_context_query(message):
-            try:
-                return RouteResult(route="gemini", reason="long_context_threshold", response=self.cloud.gemini_generate(message))
-            except Exception:
-                return RouteResult(route="local_fallback", reason="gemini_unavailable", response=self._safe_local_fallback(message))
-
-        if self._is_complex_reasoning_query(message):
-            try:
-                return RouteResult(route="groq", reason="complex_reasoning_keywords", response=self.cloud.groq_generate(message))
-            except Exception:
-                return RouteResult(route="local_fallback", reason="groq_unavailable", response=self._safe_local_fallback(message))
-
-        if self._is_rag_query(message):
-            return RouteResult(route="local_rag", reason="rag_keywords", response=self._local_rag(message))
-
-        return RouteResult(route="local_simple", reason="default_simple", response=self._local_simple(message))
+        return RouteResult(
+            route="error",
+            reason="all_cloud_apis_unavailable",
+            response=(
+                "I'm sorry, I couldn't process your request at this time. "
+                "All cloud AI services are currently unavailable."
+            ),
+        )
 
     def respond(self, message: str) -> str:
         return self.respond_with_route(message).response
