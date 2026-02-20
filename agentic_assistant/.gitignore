@@ -11,16 +11,26 @@ venv/
 .env
 env/
 
-# Models and data
+# Models and data files
 /models/
-/data/
 *.gguf
 *.bin
+/data/rag/*
+/data/knowledge/*
+# Keep directory stubs in git
+!/data/rag/.gitkeep
+!/data/knowledge/.gitkeep
 
 # Logs
-.log
+*.log
 
 # Editor
 .vscode/
 *.swp
 Thumbs.db
+
+# Windows
+desktop.ini
+
+# Personality (user-specific)
+personality.yaml

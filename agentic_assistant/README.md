@@ -1,24 +1,34 @@
-# Hybrid Agentic Assistant for Raspberry Pi 5 (8GB)
+# Hybrid Agentic Assistant — Windows & Raspberry Pi 5
 
-Hybrid assistant with local + cloud inference:
+Hybrid assistant with local + cloud inference, Discord & Telegram bots, and a configurable personality:
 - Local: `llama.cpp` + local RAG (`sentence-transformers` + `hnswlib` + SQLite)
 - Cloud: Groq (fast reasoning), Gemini (long context), Kimi/Moonshot (planning)
-- APIs: FastAPI + Telegram/Discord webhooks
+- APIs: FastAPI + Telegram/Discord webhooks **or polling bots** (recommended for Windows)
+- Personality: configurable agent name, character, response style, humor, and expertise
 
-## 1) Hardware and OS
+## 1) Quick Start — Windows
 
-Recommended:
-- Raspberry Pi 5 (8GB)
-- NVMe SSD (>= 128GB)
-- Official 27W PSU
-- Active cooling
-- Raspberry Pi OS (64-bit)
+```powershell
+# 1. Clone / copy this repository to a local folder, e.g.:
+#    C:\agentic-assistant\
+cd C:\agentic-assistant
 
-Why:
-- NVMe improves model/RAG I/O
-- cooling avoids thermal throttling during inference
+# 2. Install dependencies (creates .venv, copies .env and personality.yaml)
+powershell -ExecutionPolicy Bypass -File deploy\install_windows.ps1
 
-## 2) Install on Raspberry Pi
+# 3. Edit .env — set bot tokens, cloud API keys, model path
+notepad .env
+
+# 4. (Optional) Customise the assistant's personality
+notepad personality.yaml
+
+# 5. Start the server (includes health + smoke-test)
+powershell -ExecutionPolicy Bypass -File scripts\start_windows.ps1
+```
+
+See [GUIDE.md](GUIDE.md) for the full Windows setup walkthrough.
+
+## 2) Quick Start — Raspberry Pi 5
 
 ```bash
 sudo mkdir -p /opt/agentic-assistant
@@ -32,57 +42,75 @@ bash deploy/install_pi.sh
 
 ```bash
 cp .env.example .env
-chmod 600 .env
+# Linux: chmod 600 .env
 ```
 
-### Path rules (important)
-- On Raspberry Pi/Linux, use Linux paths like `/home/pi/...`
-- On Windows local testing, use Windows paths like `C:\Users\...`
-- Do not mix Windows and Linux paths in the same runtime
+### Key settings
 
-Minimum local runtime values:
-- `MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf`
-- `LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli`
+| Variable | Windows example | Pi/Linux example |
+|---|---|---|
+| `MODEL_PATH` | `C:\llama.cpp\models\gemma-2-2b-it-Q4_K_M.gguf` | `/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf` |
+| `LLAMA_MAIN_PATH` | `C:\llama.cpp\build\bin\llama-cli.exe` | `/home/pi/llama.cpp/build/bin/llama-cli` |
+| `BOT_MODE` | `polling` (no public URL needed) | `webhook` |
+| `TELEGRAM_BOT_TOKEN` | from BotFather | same |
+| `DISCORD_BOT_TOKEN` | from Discord Dev Portal | same |
 
-Pi-safe defaults:
-- `INFERENCE_THREADS=4`
-- `LLM_CONTEXT_TOKENS=2048`
-- `MAX_RESPONSE_TOKENS=256`
-- `LLM_TEMPERATURE=0.2`
+> **Windows tip**: Set `BOT_MODE=polling` — bots will pull messages directly from Telegram/Discord without needing a public HTTPS URL.
 
-Safety defaults:
-- `MAX_INPUT_CHARS=8000`
-- `EXPOSE_DELIVERY_ERRORS=false`
+## 4) Personality Configuration
 
-## 4) Where to get API keys
+Copy `personality.yaml.example` to `personality.yaml` and edit it:
 
-### Groq
-- Create key: `https://console.groq.com/keys`
-- Put in `.env`: `GROQ_API_KEY=...`
+```yaml
+name: Aria
+personality: friendly, witty, and deeply knowledgeable
+response_style: warm and conversational, concise without being curt
+humor: clever puns and light tech humour when appropriate
+expertise: software engineering, artificial intelligence, creative writing
+```
 
-### Gemini (Google)
-- Create key in Google AI Studio / Gemini API console
-- Put in `.env`: `GEMINI_API_KEY=...`
+Or use environment variables in `.env`:
 
-### Kimi (Moonshot)
-- Create key in Moonshot developer console
-- Put in `.env`: `KIMI_API_KEY=...`
-- Keep base URL: `KIMI_BASE_URL=https://api.moonshot.ai/v1`
+```env
+AGENT_NAME=Aria
+AGENT_PERSONALITY=friendly, witty, and deeply knowledgeable
+AGENT_RESPONSE_STYLE=warm and conversational
+AGENT_HUMOR=clever puns
+AGENT_EXPERTISE=software engineering, AI, creative writing
+```
 
-### Telegram
-- Talk to `@BotFather` → `/newbot` → copy token
-- Put in `.env`: `TELEGRAM_BOT_TOKEN=...`
-- Optional inbound verification token: `TELEGRAM_SECRET=...`
+## 5) Bot Modes
 
-### Discord
-- `https://discord.com/developers/applications` → create app/bot → copy token
-- Put in `.env`: `DISCORD_BOT_TOKEN=...`
-- (Recommended) Interactions verification: `DISCORD_PUBLIC_KEY` from "General Information" tab
-- (Legacy) Optional inbound bearer check: `DISCORD_BEARER_TOKEN=...`
+### Polling mode (`BOT_MODE=polling`) — recommended for Windows
+- Telegram: polls `getUpdates` API (no public URL required)
+- Discord: connects via WebSocket gateway (requires `discord.py`, included in `requirements.txt`)
+- Both bots start automatically when `BOT_MODE=polling` and the tokens are set
 
-## 5) Routing behavior — 4-tier cascade
+### Webhook mode (`BOT_MODE=webhook`) — for servers with a public URL
+- Telegram: `POST /webhook/telegram`
+- Discord: `POST /webhook/discord` (handles PING/PONG verification automatically)
+- On Windows without a public URL: use [ngrok](https://ngrok.com) or [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)
 
-Every message passes through a priority cascade. **RAG context and conversation history (last `MEMORY_MAX_TURNS` turns) are injected into every prompt regardless of route.**
+## 6) Where to get API keys
+
+### Cloud inference
+| Provider | URL | `.env` key |
+|---|---|---|
+| Groq | https://console.groq.com/keys | `GROQ_API_KEY` |
+| Gemini | Google AI Studio | `GEMINI_API_KEY` |
+| Kimi/Moonshot | Moonshot developer console | `KIMI_API_KEY` |
+
+### Bots
+| Bot | How | `.env` key |
+|---|---|---|
+| Telegram | Talk to `@BotFather` → `/newbot` | `TELEGRAM_BOT_TOKEN` |
+| Discord | discord.com/developers → Bot → Create | `DISCORD_BOT_TOKEN` |
+
+> **Discord polling mode**: Also enable **Message Content Intent** in the Discord Developer Portal (Bot → Privileged Gateway Intents).
+
+## 7) Routing behavior — 4-tier cascade
+
+Every message passes through a priority cascade. **RAG context and conversation history are injected into every prompt regardless of route.**
 
 | Tier | Trigger | Route | Provider | `reason` |
 |------|---------|-------|----------|----------|
@@ -95,42 +123,57 @@ Every message passes through a priority cascade. **RAG context and conversation 
 | 3 | Ambiguous → local Gemma classifies → local | `local_simple` | Local Gemma | `llm_classifier_local` |
 | 4 | Cloud key missing or API error | `local_fallback` | Local Gemma | `*_unavailable` |
 
-Tier 3 runs only when `USE_LLM_ROUTING=true` (default). Set `USE_LLM_ROUTING=false` for keyword-only routing (faster on very slow hardware).
+Set `USE_LLM_ROUTING=false` for faster keyword-only routing (useful on slow hardware).
 
-`/query` returns both `route` and `reason` for full explainability.
+## 8) Ingest knowledge for RAG
 
-## 6) Ingest knowledge for RAG
+Place your documents (`.txt`, `.md`, `.pdf`) in `data/knowledge/`, then run:
 
-```bash
-source /opt/agentic-assistant/.venv/bin/activate
-export PYTHONPATH=/opt/agentic-assistant/src
-python /opt/agentic-assistant/scripts/ingest_documents.py /opt/agentic-assistant/docs --source knowledge_base
+**Windows (PowerShell):**
+```powershell
+$env:PYTHONPATH="src"
+.\.venv\Scripts\python.exe scripts\ingest_documents.py data\knowledge --source knowledge_base
 ```
 
-## 7) Run and test
-
-### Standard run
+**Linux / Pi:**
 ```bash
-source /opt/agentic-assistant/.venv/bin/activate
-export PYTHONPATH=/opt/agentic-assistant/src
-python -m assistant.agent
+source .venv/bin/activate
+export PYTHONPATH=src
+python scripts/ingest_documents.py data/knowledge --source knowledge_base
 ```
 
-### One-command run + check (Pi)
+## 9) Run and test
+
+### Windows
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\start_windows.ps1
+# or:
+scripts\start_windows.bat
+```
+
+### Linux / Pi
 ```bash
 bash scripts/pi_start_and_check.sh
 ```
 
-This starts the API in the background, checks `/health`, runs one `/query`, prints results, and stops the process.
-
 ### Manual checks
 ```bash
 curl http://127.0.0.1:8000/health
-curl -X POST http://127.0.0.1:8000/query -H "Content-Type: application/json" -d '{"message":"Who is Sayanth?"}'
+curl -X POST http://127.0.0.1:8000/query -H "Content-Type: application/json" -d '{"message":"Hello, who are you?"}'
 ```
 
-## 8) Service and proxy
+## 10) Service / auto-start
 
+### Windows — Task Scheduler
+```powershell
+# Run once as Administrator:
+$action = New-ScheduledTaskAction -Execute "powershell.exe" `
+    -Argument "-ExecutionPolicy Bypass -File C:\agentic-assistant\scripts\start_windows.ps1"
+$trigger = New-ScheduledTaskTrigger -AtLogOn
+Register-ScheduledTask -TaskName "AgenticAssistant" -Action $action -Trigger $trigger -RunLevel Highest
+```
+
+### Linux — systemd
 ```bash
 sudo cp deploy/agent.service /etc/systemd/system/agent.service
 sudo systemctl daemon-reload
@@ -138,34 +181,16 @@ sudo systemctl enable --now agent
 sudo systemctl status agent --no-pager
 ```
 
-```bash
-sudo cp deploy/nginx-agent.conf /etc/nginx/sites-available/agent
-sudo ln -sf /etc/nginx/sites-available/agent /etc/nginx/sites-enabled/agent
-sudo nginx -t
-sudo systemctl restart nginx
-```
+## 11) Performance notes
 
-## 9) Webhook endpoints
+| Platform | Model | Typical latency |
+|---|---|---|
+| Windows (CPU, e.g. Core i7) | Local Gemma Q4_K_M | 2–15 s |
+| Raspberry Pi 5 8GB | Local Gemma Q4_K_M | 4–10 s |
+| Any platform | Groq (cloud) | 0.3–1 s |
+| Any platform | Gemini (cloud) | 1–3 s |
+| Any platform | Kimi/Moonshot (cloud) | 1–4 s |
 
-- Telegram: `POST /webhook/telegram`
-- Discord: `POST /webhook/discord` (also handles Discord PING/PONG verification automatically)
-
-## 10) Performance notes for Pi 5 (8GB, aarch64)
-
-- Keep model quantized (`Q4_K_M`) — Gemma 2 2B Q4_K_M is ~1.6 GB RAM
-- `INFERENCE_THREADS=4` — Pi 5 has 4 × Cortex-A76 cores, use all of them
-- **Single-worker only**: The assistant uses SQLite for memory and RAG storage. Do NOT run with `uvicorn --workers N` (multi-worker mode) — SQLite connections are not safe across processes. The default single-worker mode is correct and sufficient for Pi 5 workloads.
-- Store `RAG_DATA_DIR` on NVMe, not SD card — embedding queries are I/O-bound
-- Monitor temperature: `vcgencmd measure_temp` (throttling begins at 80 °C)
-- Lower `LLM_CONTEXT_TOKENS=1024` and `MEMORY_MAX_TURNS=6` if RAM is tight
-- Disable LLM routing `USE_LLM_ROUTING=false` to save the classification inference call
-
-**Approximate latency on Pi 5 8GB (active cooling, NVMe):**
-
-| Route | Typical latency |
-|-------|-----------------|
-| Local Gemma (short / simple) | 2–8 s |
-| Local Gemma + RAG | 3–10 s |
-| Groq (cloud) | 0.3–1 s |
-| Gemini (cloud) | 1–3 s |
-| Kimi / Moonshot (cloud) | 1–4 s |
+- **Single-worker only**: Do NOT use `uvicorn --workers N` — SQLite is not safe across processes.
+- On Windows, `llama.cpp` uses all available CPU threads by default (`INFERENCE_THREADS` env var).
+- If only using cloud routes, you can leave `MODEL_PATH` and `LLAMA_MAIN_PATH` unset (local inference will error gracefully and fall back to cloud).

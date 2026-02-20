@@ -20,6 +20,7 @@ from dataclasses import dataclass
 from assistant.llm.cloud_router import CloudRouter
 from assistant.llm.llama_cpp_runner import LlamaCppRunner
 from assistant.memory import ConversationMemory
+from assistant.personality import Personality
 from assistant.rag.store import RagStore
 
 logger = logging.getLogger(__name__)
@@ -62,6 +63,7 @@ class AgentOrchestrator:
         llm: LlamaCppRunner,
         cloud: CloudRouter,
         memory: ConversationMemory | None = None,
+        personality: Personality | None = None,
         top_k: int = 3,
         long_context_threshold_chars: int = 1200,
         short_message_threshold_chars: int = 150,
@@ -71,6 +73,7 @@ class AgentOrchestrator:
         self.llm = llm
         self.cloud = cloud
         self.memory = memory
+        self.personality = personality
         self.top_k = top_k
         self.long_context_threshold_chars = long_context_threshold_chars
         self.short_message_threshold_chars = short_message_threshold_chars
@@ -112,10 +115,16 @@ class AgentOrchestrator:
 
     def _local_prompt(self, message: str, rag_ctx: str, history: str) -> str:
         """Build a Gemma-format prompt for the local model."""
+        if self.personality:
+            system_text = self.personality.system_prompt(is_local=True)
+        else:
+            system_text = (
+                "You are a concise, helpful assistant. "
+                "Use the context and conversation history when relevant. Be brief."
+            )
         parts: list[str] = [
             "<start_of_turn>system",
-            "You are a concise, helpful assistant running locally on a Raspberry Pi. "
-            "Use the context and conversation history when relevant. Be brief.",
+            system_text,
             "<end_of_turn>",
         ]
         if history:
@@ -133,9 +142,12 @@ class AgentOrchestrator:
     def _cloud_prompt(self, message: str, rag_ctx: str, history: str) -> str:
         """Build a plain-text prompt suitable for all cloud models."""
         sections: list[str] = []
-        sections.append(
-            "You are a helpful assistant. Use the provided context and history when relevant."
-        )
+        if self.personality:
+            sections.append(self.personality.system_prompt(is_local=False))
+        else:
+            sections.append(
+                "You are a helpful assistant. Use the provided context and history when relevant."
+            )
         if history:
             sections.append(history)
         if rag_ctx:
