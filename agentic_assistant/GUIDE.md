@@ -39,7 +39,7 @@ Why hybrid?
 - Recommended device: Raspberry Pi 5 (8GB RAM) with NVMe SSD (>= 128GB).
 - Power: Official 27W USB-C power supply.
 - Cooling: active cooling (fan + heatsink) to sustain CPU frequency during inference.
-- OS: Ubuntu Server 24.04 LTS (ARM64). Use Raspberry Pi Imager or official images.
+- OS: Raspberry Pi OS (64-bit). Use Raspberry Pi Imager.
 
 Why NVMe SSD?
 - Embeddings, models, and SQLite/HNSW files can be large; NVMe reduces I/O bottlenecks.
@@ -82,7 +82,7 @@ python -m assistant.agent
 
 ## Installing on Raspberry Pi 5 (step-by-step)
 
-1. Flash Ubuntu Server 24.04 ARM64, enable SSH, and boot the Pi.
+1. Flash Raspberry Pi OS (64-bit), enable SSH, and boot the Pi.
 2. Update OS:
 
 ```bash
@@ -115,17 +115,17 @@ sudo systemctl status agent -l
 
 ## Path conventions (Windows vs Pi)
 
-- Raspberry Pi runtime must use Linux paths (example: `/home/ubuntu/models/model.gguf`).
+- Raspberry Pi runtime must use Linux paths (example: `/home/pi/models/model.gguf`).
 - Windows local runtime must use Windows paths (example: `C:\Users\name\Downloads\model.gguf`).
 - Avoid mixed values. If `MODEL_PATH` is Windows but app runs on Linux, model loading fails.
 - Recommended Pi values:
-	- `MODEL_PATH=/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf`
-	- `LLAMA_MAIN_PATH=/home/ubuntu/llama.cpp/build/bin/llama-cli`
+	- `MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf`
+	- `LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli`
 
 ## Models and storage
 
 - Models: Use a quantized GGUF model (e.g., Gemma 2 2B Q4_K_M) for smoother inference on Pi.
-- Place models under the path specified by `MODEL_PATH` in `.env` (e.g., `/home/ubuntu/models/gemma2b.gguf`).
+- Place models under the path specified by `MODEL_PATH` in `.env` (e.g., `/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf`).
 - RAG storage: `RAG_DATA_DIR` holds `hnswlib` index files and a SQLite DB; place it on NVMe.
 
 Why quantized models?

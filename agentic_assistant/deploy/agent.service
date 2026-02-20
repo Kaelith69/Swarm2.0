@@ -5,8 +5,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=ubuntu
-Group=ubuntu
+User=pi
+Group=pi
 WorkingDirectory=/opt/agentic-assistant
 EnvironmentFile=/opt/agentic-assistant/.env
 Environment=PYTHONUNBUFFERED=1
@@ -26,11 +26,11 @@ TimeoutStopSec=30
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
-# ProtectHome would block /home/ubuntu/models — keep it off
+# ProtectHome would block /home/pi/models — keep it off
 ProtectHome=false
 # Allow write to data dir only; model files are read-only
 ReadWritePaths=/opt/agentic-assistant/data
-ReadOnlyPaths=/home/ubuntu/models /home/ubuntu/llama.cpp
+ReadOnlyPaths=/home/pi/models /home/pi/llama.cpp
 
 LimitNOFILE=65535
 Nice=0

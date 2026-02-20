@@ -35,9 +35,9 @@ class Settings:
     host: str = os.getenv("HOST", "0.0.0.0")
     port: int = _env_int("PORT", 8000)
 
-    model_path: Path = Path(os.getenv("MODEL_PATH", "/home/ubuntu/models/gemma2b.gguf"))
+    model_path: Path = Path(os.getenv("MODEL_PATH", "/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf"))
     llama_main_path: Path = Path(
-        os.getenv("LLAMA_MAIN_PATH", "/home/ubuntu/llama.cpp/build/bin/llama-cli")
+        os.getenv("LLAMA_MAIN_PATH", "/home/pi/llama.cpp/build/bin/llama-cli")
     )
     # On Pi 5 (4-core ARM Cortex-A76) use all cores for inference.
     # For boards with > 4 cores leave one free for the OS.

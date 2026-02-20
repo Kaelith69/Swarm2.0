@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------
 # install_pi.sh — bootstrap the agentic assistant on Raspberry Pi 5 (64-bit)
 #
-# Run as the 'ubuntu' (or pi) user, NOT as root.  The script uses sudo only
+# Run as the 'pi' (or your user) user, NOT as root.  The script uses sudo only
 # where required (apt, mkdir, chown).
 #
 # Usage:
@@ -12,8 +12,8 @@
 set -euo pipefail
 
 APP_DIR="${APP_DIR:-/opt/agentic-assistant}"
-LLAMA_DIR="${LLAMA_DIR:-/home/ubuntu/llama.cpp}"
-MODEL_DIR="${MODEL_DIR:-/home/ubuntu/models}"
+LLAMA_DIR="${LLAMA_DIR:-/home/pi/llama.cpp}"
+MODEL_DIR="${MODEL_DIR:-/home/pi/models}"
 NPROC=$(nproc)   # use all cores for the cmake build
 
 echo "==> [1/6] Installing system packages"

@@ -1,6 +1,6 @@
 # Raspberry Pi 5 (8GB) — Production Setup Guide
 
-Full step-by-step guide to deploy the agentic assistant on **Raspberry Pi 5 (8GB) with 64-bit OS**.
+Full step-by-step guide to deploy the agentic assistant on **Raspberry Pi 5 (8GB) with Raspberry Pi OS (64-bit)**.
 
 ## Architecture
 
@@ -31,7 +31,7 @@ Hardware and OS
 - Raspberry Pi 5 (8GB)
 - NVMe SSD (>= 128GB) recommended
 - Active cooling + official 27W PSU
-- Ubuntu Server 24.04 LTS (ARM64)
+- Raspberry Pi OS (64-bit)
 
 Access and tooling
 - SSH access to the Pi
@@ -65,7 +65,7 @@ This creates a venv at `.venv` and installs dependencies.
 ## 4) Build llama.cpp
 
 ```bash
-cd /home/ubuntu
+cd /home/pi
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -73,7 +73,7 @@ cmake --build build -j
 ```
 
 Verify the CLI exists at:
-- `/home/ubuntu/llama.cpp/build/bin/llama-cli`
+- `/home/pi/llama.cpp/build/bin/llama-cli`
 
 ## 5) Download a GGUF model
 
@@ -81,7 +81,7 @@ Recommended for Pi 5:
 - Gemma 2 2B Q4_K_M (or similar quantized GGUF)
 
 Example location:
-- `/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf`
+- `/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf`
 
 ## 6) Configure .env
 
@@ -95,8 +95,8 @@ Edit `.env` (Linux paths only on the Pi):
 
 ```ini
 # --- Local model (required) ---
-MODEL_PATH=/home/ubuntu/models/gemma-2-2b-it-Q4_K_M.gguf
-LLAMA_MAIN_PATH=/home/ubuntu/llama.cpp/build/bin/llama-cli
+MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf
+LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli
 INFERENCE_THREADS=4          # Pi 5 has 4 cores; use all
 LLM_CONTEXT_TOKENS=2048
 MAX_RESPONSE_TOKENS=256
@@ -248,7 +248,7 @@ All six cases should print `"ok": true`.
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
 | `Model not found` on startup | Wrong `MODEL_PATH` | Confirm with `ls -lh "$MODEL_PATH"` |
-| `llama-cli: not found` | `LLAMA_MAIN_PATH` wrong or build failed | Run `ls /home/ubuntu/llama.cpp/build/bin/llama-cli`; rebuild if absent |
+| `llama-cli: not found` | `LLAMA_MAIN_PATH` wrong or build failed | Run `ls /home/pi/llama.cpp/build/bin/llama-cli`; rebuild if absent |
 | Inference hangs / timeout | `LLAMA_TIMEOUT_SECONDS` too low or Pi thermal throttling | Increase `LLAMA_TIMEOUT_SECONDS` to `180`; check `vcgencmd measure_temp` |
 | Discord webhook registration fails (403) | Missing PING/PONG handler | Upgrade to latest `api.py` (handler already present); re-register webhook URL in Discord dev portal |
 | RAG returns no results | Index not built or wrong `RAG_DATA_DIR` | Re-run `ingest_documents.py`; check that `RAG_DATA_DIR` matches `.env` |
