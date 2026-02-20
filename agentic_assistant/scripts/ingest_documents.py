@@ -1,12 +1,20 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
-from pypdf import PdfReader
+# Allow running as `python scripts/ingest_documents.py` from the project root
+# with PYTHONPATH already set to src/, OR directly without it.
+_ROOT = Path(__file__).resolve().parents[1]
+_SRC = _ROOT / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
 
-from src.assistant.config import settings
-from src.assistant.rag.store import RagStore
+from pypdf import PdfReader  # noqa: E402
+
+from assistant.config import settings  # noqa: E402
+from assistant.rag.store import RagStore  # noqa: E402
 
 
 def chunk_text(text: str, chunk_size_words: int = 500) -> list[str]:

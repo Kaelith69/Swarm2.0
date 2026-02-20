@@ -20,16 +20,3 @@ def parse_discord(payload: dict[str, Any]) -> tuple[str, str] | None:
     if not text:
         return None
     return user, text
-
-
-def parse_whatsapp(payload: dict[str, Any]) -> tuple[str, str] | None:
-    try:
-        msg = payload["entry"][0]["changes"][0]["value"]["messages"][0]
-        user = str(msg.get("from", "unknown"))
-        text = str(((msg.get("text") or {}).get("body") or "")).strip()
-    except (KeyError, IndexError, TypeError):
-        return None
-
-    if not text:
-        return None
-    return user, text

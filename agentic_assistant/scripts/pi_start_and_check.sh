@@ -29,7 +29,7 @@ trap cleanup EXIT
 
 echo "[INFO] Waiting for API startup..."
 READY=0
-for _ in $(seq 1 30); do
+for i in $(seq 1 30); do
   if curl -fsS "http://${HOST}:${PORT}/health" >/tmp/agentic-health.json; then
     READY=1
     break

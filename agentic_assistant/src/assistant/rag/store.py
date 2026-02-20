@@ -7,12 +7,21 @@ import uuid
 from pathlib import Path
 from typing import Any, Iterable
 
-import numpy as np
-from sentence_transformers import SentenceTransformer
-
 
 class RagStore:
     def __init__(self, data_dir: Path, embedding_model: str) -> None:
+        # Lazy-import heavy deps so a missing package yields a clear error
+        # instead of crashing the entire server process at startup.
+        try:
+            from sentence_transformers import SentenceTransformer  # type: ignore[import]
+            import numpy as _np  # type: ignore[import]
+        except ImportError as exc:
+            raise RuntimeError(
+                "sentence-transformers and/or numpy are not installed. "
+                "Run: pip install -r requirements.txt"
+            ) from exc
+        self._np = _np
+
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
@@ -106,7 +115,7 @@ class RagStore:
         if not chunk_list:
             return 0
 
-        embeddings = self.embedder.encode(chunk_list, convert_to_numpy=True).astype(np.float32)
+        embeddings = self.embedder.encode(chunk_list, convert_to_numpy=True).astype(self._np.float32)
 
         if self.index is None:
             raise RuntimeError("Vector index is not initialized")
@@ -116,7 +125,7 @@ class RagStore:
         if required > self.index.get_max_elements():
             self.index.resize_index(max(required * 2, 10000))
 
-        labels = np.arange(existing_count, required)
+        labels = self._np.arange(existing_count, required)
         self.index.add_items(embeddings, labels)
 
         rows: list[tuple[str, str, int, str]] = []
@@ -139,7 +148,7 @@ class RagStore:
         if self.index is None or self.index.get_current_count() == 0:
             return []
 
-        vector = self.embedder.encode([text], convert_to_numpy=True).astype(np.float32)
+        vector = self.embedder.encode([text], convert_to_numpy=True).astype(self._np.float32)
         labels, distances = self.index.knn_query(vector, k=min(top_k, self.index.get_current_count()))
         label_list = labels[0].tolist()
         score_list = distances[0].tolist()

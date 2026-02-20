@@ -10,14 +10,10 @@ class OutboundSenders:
         self,
         telegram_bot_token: str = "",
         discord_bot_token: str = "",
-        whatsapp_access_token: str = "",
-        whatsapp_phone_number_id: str = "",
         timeout_seconds: float = 10.0,
     ) -> None:
         self.telegram_bot_token = telegram_bot_token
         self.discord_bot_token = discord_bot_token
-        self.whatsapp_access_token = whatsapp_access_token
-        self.whatsapp_phone_number_id = whatsapp_phone_number_id
         self.timeout_seconds = timeout_seconds
 
     @staticmethod
@@ -71,36 +67,5 @@ class OutboundSenders:
 
         if response.status_code >= 400:
             return self._safe_error("discord api error", status_code=response.status_code)
-
-        return {"sent": True}
-
-    def send_whatsapp(self, to_phone: str, text: str, phone_number_id: str | None = None) -> dict[str, Any]:
-        if not self.whatsapp_access_token:
-            return {"sent": False, "reason": "WHATSAPP_ACCESS_TOKEN not set"}
-
-        number_id = phone_number_id or self.whatsapp_phone_number_id
-        if not number_id:
-            return {"sent": False, "reason": "WHATSAPP_PHONE_NUMBER_ID not set"}
-
-        url = f"https://graph.facebook.com/v20.0/{number_id}/messages"
-        headers = {
-            "Authorization": f"Bearer {self.whatsapp_access_token}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "messaging_product": "whatsapp",
-            "to": to_phone,
-            "type": "text",
-            "text": {"body": self._truncate_text(text, 3900)},
-        }
-
-        try:
-            with httpx.Client(timeout=self.timeout_seconds) as client:
-                response = client.post(url, headers=headers, json=payload)
-        except httpx.RequestError:
-            return self._safe_error("whatsapp transport error")
-
-        if response.status_code >= 400:
-            return self._safe_error("whatsapp api error", status_code=response.status_code)
 
         return {"sent": True}

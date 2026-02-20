@@ -27,7 +27,7 @@ Table of contents
 This project provides a hybrid assistant:
 - Local path: `llama.cpp` inference + local RAG (`sentence-transformers`, `hnswlib`, SQLite).
 - Cloud path: Groq, Gemini, and Kimi providers routed by query type.
-- API surface: `FastAPI` with Telegram/Discord/WhatsApp webhook handlers.
+- API surface: `FastAPI` with Telegram/Discord webhook handlers.
 
 Why hybrid?
 - Local handles routine tasks and RAG cheaply on-device.
@@ -165,12 +165,6 @@ Discord
 - How to get: Create an application in https://discord.com/developers → Bot → Create Bot → copy token.
 - Place in `.env` as `DISCORD_BOT_TOKEN=<token>`.
 - Optional inbound verification: `DISCORD_BEARER_TOKEN` is a user-configurable token you can require in the `Authorization` header for incoming webhooks.
-
-WhatsApp (Meta Cloud API)
-- What: `WHATSAPP_ACCESS_TOKEN` (Graph API token) and `WHATSAPP_PHONE_NUMBER_ID`.
-- How to get: Create an app in Meta for Developers, configure the WhatsApp product, register a phone number, and get the token and phone number id from the Meta dashboard.
-- Place in `.env` as `WHATSAPP_ACCESS_TOKEN=` and `WHATSAPP_PHONE_NUMBER_ID=`.
-- `WHATSAPP_VERIFY_TOKEN`: choose any string; when Meta verifies the webhook it will call your GET endpoint with this token and expect the challenge returned.
 
 Where to place
 - Copy `.env.example` to `.env` and fill the values. The service reads runtime settings from `.env` via `python-dotenv`.

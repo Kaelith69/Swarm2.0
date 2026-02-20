@@ -1,5 +1,5 @@
 [Unit]
-Description=Agentic Assistant (Raspberry Pi)
+Description=Agentic Assistant (Raspberry Pi 5)
 After=network-online.target
 Wants=network-online.target
 
@@ -10,17 +10,30 @@ Group=ubuntu
 WorkingDirectory=/opt/agentic-assistant
 EnvironmentFile=/opt/agentic-assistant/.env
 Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/opt/agentic-assistant/src
 Environment=OMP_NUM_THREADS=1
-ExecStart=/usr/bin/python3 -m assistant.agent
+
+# Use the venv Python, not /usr/bin/python3
+# IMPORTANT: Run as single worker only (no --workers flag).
+# SQLite-backed memory/RAG stores are not safe with uvicorn multi-worker mode.
+ExecStart=/opt/agentic-assistant/.venv/bin/python -m assistant.agent
+
 Restart=always
-RestartSec=3
+RestartSec=5
+TimeoutStopSec=30
+
+# Security hardening
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
-ProtectHome=true
+# ProtectHome would block /home/ubuntu/models — keep it off
+ProtectHome=false
+# Allow write to data dir only; model files are read-only
 ReadWritePaths=/opt/agentic-assistant/data
+ReadOnlyPaths=/home/ubuntu/models /home/ubuntu/llama.cpp
+
 LimitNOFILE=65535
-Nice=5
+Nice=0
 
 [Install]
 WantedBy=multi-user.target

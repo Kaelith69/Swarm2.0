@@ -39,7 +39,12 @@ class Settings:
     llama_main_path: Path = Path(
         os.getenv("LLAMA_MAIN_PATH", "/home/ubuntu/llama.cpp/build/bin/llama-cli")
     )
-    inference_threads: int = _env_int("INFERENCE_THREADS", max(1, min(4, (os.cpu_count() or 4) - 1)))
+    # On Pi 5 (4-core ARM Cortex-A76) use all cores for inference.
+    # For boards with > 4 cores leave one free for the OS.
+    inference_threads: int = _env_int(
+        "INFERENCE_THREADS",
+        max(1, (os.cpu_count() or 4) if (os.cpu_count() or 4) <= 4 else (os.cpu_count() or 4) - 1),
+    )
     llm_context_tokens: int = _env_int("LLM_CONTEXT_TOKENS", 2048)
     max_response_tokens: int = _env_int("MAX_RESPONSE_TOKENS", 256)
     llm_temperature: float = _env_float("LLM_TEMPERATURE", 0.2)
@@ -52,6 +57,17 @@ class Settings:
 
     long_context_threshold_chars: int = _env_int("LONG_CONTEXT_THRESHOLD_CHARS", 1200)
     cloud_timeout_seconds: int = _env_int("CLOUD_TIMEOUT_SECONDS", 25)
+
+    # Conversation memory
+    memory_max_turns: int = _env_int("MEMORY_MAX_TURNS", 10)
+
+    # Local LLM routing classification
+    # When True the local Gemma model classifies ambiguous queries to decide routing.
+    use_llm_routing: bool = os.getenv("USE_LLM_ROUTING", "true").lower() == "true"
+    # Messages shorter than this go straight to local without LLM routing overhead.
+    local_short_threshold_chars: int = _env_int("LOCAL_SHORT_THRESHOLD_CHARS", 150)
+    # Timeout in seconds for the llama.cpp subprocess (Pi-safe headroom)
+    llama_timeout_seconds: int = _env_int("LLAMA_TIMEOUT_SECONDS", 120)
 
     groq_api_key: str = os.getenv("GROQ_API_KEY", "")
     groq_model: str = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
@@ -67,9 +83,6 @@ class Settings:
     telegram_secret: str = os.getenv("TELEGRAM_SECRET", "")
     discord_bot_token: str = os.getenv("DISCORD_BOT_TOKEN", "")
     discord_bearer_token: str = os.getenv("DISCORD_BEARER_TOKEN", "")
-    whatsapp_access_token: str = os.getenv("WHATSAPP_ACCESS_TOKEN", "")
-    whatsapp_phone_number_id: str = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "")
-    whatsapp_verify_token: str = os.getenv("WHATSAPP_VERIFY_TOKEN", "")
 
 
 settings = Settings()

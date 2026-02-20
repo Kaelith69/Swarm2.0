@@ -3,7 +3,7 @@
 Hybrid assistant with local + cloud inference:
 - Local: `llama.cpp` + local RAG (`sentence-transformers` + `hnswlib` + SQLite)
 - Cloud: Groq (fast reasoning), Gemini (long context), Kimi/Moonshot (planning)
-- APIs: FastAPI + Telegram/Discord/WhatsApp webhooks
+- APIs: FastAPI + Telegram/Discord webhooks
 
 ## 1) Hardware and OS
 
@@ -79,24 +79,24 @@ Safety defaults:
 - Put in `.env`: `DISCORD_BOT_TOKEN=...`
 - Optional inbound bearer check: `DISCORD_BEARER_TOKEN=...`
 
-### WhatsApp Cloud API (Meta)
-- Create app in Meta for Developers → WhatsApp product
-- Get token + phone number id
-- Put in `.env`:
-  - `WHATSAPP_ACCESS_TOKEN=...`
-  - `WHATSAPP_PHONE_NUMBER_ID=...`
-  - `WHATSAPP_VERIFY_TOKEN=...` (your chosen verify token)
+## 5) Routing behavior — 4-tier cascade
 
-## 5) Routing behavior
+Every message passes through a priority cascade. **RAG context and conversation history (last `MEMORY_MAX_TURNS` turns) are injected into every prompt regardless of route.**
 
-- simple query → local model
-- RAG query (docs/source/context intent) → local RAG
-- complex reasoning → Groq
-- long context (length threshold) → Gemini
-- planning/roadmap/workflow intent → Kimi
-- cloud failure/missing key → local fallback
+| Tier | Trigger | Route | Provider | `reason` |
+|------|---------|-------|----------|----------|
+| 1 | len ≤ `LOCAL_SHORT_THRESHOLD_CHARS` (150) and no complex signal | `local_simple` | Local Gemma | `short_message` |
+| 2 | `plan / roadmap / strategy / workflow` keywords | `kimi` | Moonshot Kimi | `kw_planning` |
+| 2 | Message length ≥ `LONG_CONTEXT_THRESHOLD_CHARS` (1200) | `gemini` | Gemini Flash | `kw_long_context` |
+| 2 | `analyze / compare / tradeoff / root cause` keywords | `groq` | Groq LLaMA | `kw_reasoning` |
+| 2 | `docs / document / knowledge base / retrieve` keywords | `local_rag` | Local Gemma + RAG | `kw_rag` |
+| 3 | Ambiguous → local Gemma classifies → cloud | varies | Groq / Gemini / Kimi | `llm_classifier` |
+| 3 | Ambiguous → local Gemma classifies → local | `local_simple` | Local Gemma | `llm_classifier_local` |
+| 4 | Cloud key missing or API error | `local_fallback` | Local Gemma | `*_unavailable` |
 
-`/query` returns `route` and `reason` for explainability.
+Tier 3 runs only when `USE_LLM_ROUTING=true` (default). Set `USE_LLM_ROUTING=false` for keyword-only routing (faster on very slow hardware).
+
+`/query` returns both `route` and `reason` for full explainability.
 
 ## 6) Ingest knowledge for RAG
 
@@ -147,19 +147,24 @@ sudo systemctl restart nginx
 ## 9) Webhook endpoints
 
 - Telegram: `POST /webhook/telegram`
-- Discord: `POST /webhook/discord`
-- WhatsApp verify: `GET /webhook/whatsapp`
-- WhatsApp events: `POST /webhook/whatsapp`
+- Discord: `POST /webhook/discord` (also handles Discord PING/PONG verification automatically)
 
-## 10) Performance notes for Pi 5
+## 10) Performance notes for Pi 5 (8GB, aarch64)
 
-- Keep model quantized (`Q4_K_M`)
-- Keep `INFERENCE_THREADS=4` initially
-- Keep RAG storage on NVMe (`RAG_DATA_DIR`)
-- Monitor temperature with `vcgencmd measure_temp`
+- Keep model quantized (`Q4_K_M`) — Gemma 2 2B Q4_K_M is ~1.6 GB RAM
+- `INFERENCE_THREADS=4` — Pi 5 has 4 × Cortex-A76 cores, use all of them
+- **Single-worker only**: The assistant uses SQLite for memory and RAG storage. Do NOT run with `uvicorn --workers N` (multi-worker mode) — SQLite connections are not safe across processes. The default single-worker mode is correct and sufficient for Pi 5 workloads.
+- Store `RAG_DATA_DIR` on NVMe, not SD card — embedding queries are I/O-bound
+- Monitor temperature: `vcgencmd measure_temp` (throttling begins at 80 °C)
+- Lower `LLM_CONTEXT_TOKENS=1024` and `MEMORY_MAX_TURNS=6` if RAM is tight
+- Disable LLM routing `USE_LLM_ROUTING=false` to save the classification inference call
 
-Target latency bands (from TDD v2):
-- Local: 1–5s
-- Groq: 0.1–0.5s
-- Gemini: 1–3s
-- Kimi: 1–4s
+**Approximate latency on Pi 5 8GB (active cooling, NVMe):**
+
+| Route | Typical latency |
+|-------|-----------------|
+| Local Gemma (short / simple) | 2–8 s |
+| Local Gemma + RAG | 3–10 s |
+| Groq (cloud) | 0.3–1 s |
+| Gemini (cloud) | 1–3 s |
+| Kimi / Moonshot (cloud) | 1–4 s |
