@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" width="820" height="420">
+  <defs>
+    <linearGradient id="dfBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0B1E"/>
+      <stop offset="100%" style="stop-color:#12102A"/>
+    </linearGradient>
+    <marker id="dfArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2563EB"/>
+    </marker>
+    <marker id="dfArrowC" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#06B6D4"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="820" height="420" fill="url(#dfBg)" rx="10"/>
+  <rect x="0" y="0" width="820" height="3" fill="#06B6D4" rx="0"/>
+
+  <!-- Title -->
+  <text x="410" y="28" font-family="'Segoe UI', Arial, sans-serif" font-size="14"
+        font-weight="700" text-anchor="middle" fill="#94A3B8" letter-spacing="3">DATA FLOW DIAGRAM</text>
+
+  <!-- Step boxes — horizontal pipeline across 2 rows -->
+  <!-- Row 1: steps 1-4 -->
+  <!-- Step 1 -->
+  <rect x="20" y="55" width="160" height="72" rx="8" fill="#1E1040" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="100" y="76" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700"
+        text-anchor="middle" fill="#C4B5FD">① Receive Message</text>
+  <text x="100" y="93" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#7C5AB8">Telegram / Discord /</text>
+  <text x="100" y="106" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#7C5AB8">POST /query</text>
+  <text x="100" y="119" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#4B3570">max 8000 chars</text>
+
+  <line x1="180" y1="91" x2="210" y2="91" stroke="#2563EB" stroke-width="1.5" marker-end="url(#dfArrow)"/>
+
+  <!-- Step 2 -->
+  <rect x="210" y="55" width="160" height="72" rx="8" fill="#0F2040" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="290" y="76" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700"
+        text-anchor="middle" fill="#BFDBFE">② Validate &amp; Clean</text>
+  <text x="290" y="93" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#4B82B8">strip whitespace</text>
+  <text x="290" y="106" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#4B82B8">length check → 400/413</text>
+  <text x="290" y="119" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#1E4570">auth check (webhook)</text>
+
+  <line x1="370" y1="91" x2="400" y2="91" stroke="#2563EB" stroke-width="1.5" marker-end="url(#dfArrow)"/>
+
+  <!-- Step 3 -->
+  <rect x="400" y="55" width="160" height="72" rx="8" fill="#0A1F2E" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="480" y="76" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700"
+        text-anchor="middle" fill="#67E8F9">③ RAG Retrieval</text>
+  <text x="480" y="93" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#0E7490">embed query → MiniLM</text>
+  <text x="480" y="106" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#0E7490">hnswlib ANN search</text>
+  <text x="480" y="119" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#065470">top-k=3 chunks → context</text>
+
+  <line x1="560" y1="91" x2="590" y2="91" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#dfArrowC)"/>
+
+  <!-- Step 4 -->
+  <rect x="590" y="55" width="200" height="72" rx="8" fill="#0A1F2E" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="690" y="76" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700"
+        text-anchor="middle" fill="#67E8F9">④ Load Memory</text>
+  <text x="690" y="93" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#0E7490">SQLite lookup by user_id</text>
+  <text x="690" y="106" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#0E7490">last N turns → history block</text>
+  <text x="690" y="119" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#065470">prepended to every prompt</text>
+
+  <!-- Down arrow from step 4 to routing -->
+  <line x1="690" y1="127" x2="690" y2="168" stroke="#7C3AED" stroke-width="1.5"/>
+  <line x1="690" y1="168" x2="415" y2="168" stroke="#7C3AED" stroke-width="1.5"/>
+  <line x1="415" y1="168" x2="415" y2="185" stroke="#7C3AED" stroke-width="1.5" marker-end="url(#dfArrow)"/>
+
+  <!-- Row 2: Routing decision box (center) -->
+  <rect x="270" y="185" width="280" height="80" rx="8" fill="#1E1040" stroke="#7C3AED" stroke-width="2"/>
+  <text x="410" y="207" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="700"
+        text-anchor="middle" fill="#C4B5FD">⑤ Routing Decision</text>
+  <text x="410" y="224" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#7C5AB8">Tier 1: len ≤ 150 → local_simple</text>
+  <text x="410" y="238" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#7C5AB8">Tier 2: keyword fast-path</text>
+  <text x="410" y="252" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#7C5AB8">Tier 3: LLM classifier</text>
+  <text x="410" y="266" font-family="'Segoe UI', Arial, sans-serif" font-size="9" font-style="italic"
+        text-anchor="middle" fill="#4B3570">Tier 4: fallback → local</text>
+
+  <!-- Fan out from routing to backends -->
+  <line x1="310" y1="265" x2="120" y2="310" stroke="#7C3AED" stroke-width="1.2" marker-end="url(#dfArrow)"/>
+  <line x1="360" y1="265" x2="305" y2="310" stroke="#2563EB" stroke-width="1.2" marker-end="url(#dfArrow)"/>
+  <line x1="460" y1="265" x2="500" y2="310" stroke="#2563EB" stroke-width="1.2" marker-end="url(#dfArrow)"/>
+  <line x1="510" y1="265" x2="685" y2="310" stroke="#06B6D4" stroke-width="1.2" marker-end="url(#dfArrowC)"/>
+
+  <!-- Row 3: Backends -->
+  <rect x="30" y="310" width="160" height="50" rx="8" fill="#1A0B2E" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="110" y="331" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+        text-anchor="middle" fill="#C4B5FD">🦙 Local Gemma</text>
+  <text x="110" y="347" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#6B4CB8">llama-cli subprocess</text>
+  <text x="110" y="360" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#4B3570">2–10 s · private</text>
+
+  <rect x="215" y="310" width="155" height="50" rx="8" fill="#0A1929" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="292" y="331" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+        text-anchor="middle" fill="#93C5FD">⚡ Groq API</text>
+  <text x="292" y="347" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#3B82B8">LLaMA 3.1 · reasoning</text>
+  <text x="292" y="360" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#1E4570">0.3–1 s</text>
+
+  <rect x="395" y="310" width="155" height="50" rx="8" fill="#0A1929" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="472" y="331" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+        text-anchor="middle" fill="#93C5FD">🌟 Gemini</text>
+  <text x="472" y="347" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#3B82B8">1.5 Flash · long context</text>
+  <text x="472" y="360" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#1E4570">1–3 s</text>
+
+  <rect x="575" y="310" width="190" height="50" rx="8" fill="#0A1929" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="670" y="331" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+        text-anchor="middle" fill="#67E8F9">🌙 Kimi / Moonshot</text>
+  <text x="670" y="347" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#0E7490">planning &amp; strategy</text>
+  <text x="670" y="360" font-family="'Segoe UI', Arial, sans-serif" font-size="9"
+        text-anchor="middle" fill="#065470">1–4 s</text>
+
+  <!-- Converge to step 6 -->
+  <line x1="110" y1="360" x2="350" y2="390" stroke="#7C3AED" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+  <line x1="292" y1="360" x2="390" y2="390" stroke="#2563EB" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+  <line x1="472" y1="360" x2="420" y2="390" stroke="#2563EB" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+  <line x1="670" y1="360" x2="470" y2="390" stroke="#06B6D4" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+
+  <!-- Step 6: Memory update + deliver -->
+  <rect x="280" y="390" width="260" height="22" rx="6" fill="#0D1B3E" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="410" y="405" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="600"
+        text-anchor="middle" fill="#67E8F9">⑥ Save Memory → Deliver Response</text>
+</svg>
