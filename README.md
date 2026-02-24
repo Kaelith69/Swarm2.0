@@ -4,14 +4,9 @@
 
 <br/>
 
-> *"Why choose between your local model sweating on a Raspberry Pi and burning your cloud budget, when you can have a sophisticated 4-tier routing system make that call for you — correctly, 95% of the time?"*
-
-**Swarm2.0** is a hybrid AI assistant that runs on your **Raspberry Pi 5** or **Windows PC**.  
-It intelligently routes every message to the best backend: local [`llama.cpp`](https://github.com/ggerganov/llama.cpp) inference, Groq, Gemini, or Kimi — whichever is fastest and most appropriate — while injecting conversation memory and RAG context into every single prompt. It talks to you through Telegram and Discord. It has a configurable personality. It runs on a $100 computer. It does not require a GPU.
-
----
-
 <div align="center">
+
+# Swarm2.0
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -22,15 +17,22 @@ It intelligently routes every message to the best backend: local [`llama.cpp`](h
 
 </div>
 
+<br/>
+
+> *"Why choose between your local model sweating on a Raspberry Pi and burning your cloud budget, when you can have a sophisticated 4-tier routing system make that call for you — correctly, 95% of the time?"*
+
+**Swarm2.0** is a hybrid AI assistant that runs on your **Raspberry Pi 5** or **Windows PC**.  
+It intelligently routes every message to the best backend: local [`llama.cpp`](https://github.com/ggerganov/llama.cpp) inference, Groq, Gemini, or Kimi — whichever is fastest and most appropriate — while injecting conversation memory and RAG context into every single prompt. It talks to you through Telegram and Discord. It has a configurable personality. It runs on a $100 computer. It does not require a GPU.
+
 ---
 
-## 🎬 In Action
+<div align="center">
 
-> **Place demo GIF here:** `assets/demo.gif`
+![Humor](https://media.giphy.com/media/077i6AULCXc0FKTj9s/giphy.gif)
 
-![Demo](assets/demo.gif)
+*Your Pi 5 routing the message while the cloud providers are still loading.*
 
-*The GIF should show: a Telegram message arriving → the `/query` endpoint routing it → a response appearing, with the `route` and `reason` fields visible. Terminal output showing the FastAPI server logs works great here.*
+</div>
 
 ---
 
