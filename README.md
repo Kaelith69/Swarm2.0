@@ -88,6 +88,22 @@
 
 ---
 
+> **Swarm 2.0** is the AI assistant that answers your questions before you finish typing them — and does it from a Raspberry Pi sitting on your desk, not a data center that may or may not be composting your prompts into ad revenue.
+>
+> It runs locally by default, escalates to the cloud only when it needs to flex, and falls back gracefully when the internet ghosts you at 2 AM. One box. Four routing tiers. Zero surveillance capitalism.
+>
+> No cloud. No spying. No Skynet. Relax. 🧘
+>
+> Powered by `llama.cpp`, a personality YAML, per-user SQLite memory, and the irrational optimism of someone who thought "I'll just run this on a Pi" was a reasonable idea.
+
+<div align="center">
+
+![Processing at the speed of your confusion](https://media.giphy.com/media/3oFzmMBnTyping2c8GQ/giphy.gif)
+
+</div>
+
+---
+
 ## Overview
 
 **Swarm 2.0** is a production-ready hybrid AI assistant that combines on-device inference with cloud reasoning to deliver intelligent, context-aware responses across Telegram and Discord. It runs comfortably on a **Raspberry Pi 5 (8GB)** or any Windows PC, automatically routing each message to the best available inference backend.
