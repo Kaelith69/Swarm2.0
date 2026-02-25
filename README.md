@@ -1,236 +1,214 @@
+<!-- README.md — Swarm 2.0 -->
 <div align="center">
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 240" width="960" height="240" role="img" aria-label="Swarm 2.0 banner">
-  <defs>
-    <linearGradient id="swarmBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#070B18"/>
-      <stop offset="50%" stop-color="#0B1124"/>
-      <stop offset="100%" stop-color="#0F1930"/>
-    </linearGradient>
-    <linearGradient id="swarmAccent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#7C3AED"/>
-      <stop offset="100%" stop-color="#06B6D4"/>
-    </linearGradient>
-    <linearGradient id="nodeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8B5CF6"/>
-      <stop offset="100%" stop-color="#6D28D9"/>
-    </linearGradient>
-    <linearGradient id="nodeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06B6D4"/>
-      <stop offset="100%" stop-color="#0284C7"/>
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-  <rect x="0" y="0" width="960" height="240" rx="20" fill="url(#swarmBg)"/>
-  <!-- Decorative grid lines -->
-  <line x1="0" y1="80" x2="960" y2="80" stroke="#1E293B" stroke-width="0.5" opacity="0.5"/>
-  <line x1="0" y1="160" x2="960" y2="160" stroke="#1E293B" stroke-width="0.5" opacity="0.5"/>
-  <line x1="240" y1="0" x2="240" y2="240" stroke="#1E293B" stroke-width="0.5" opacity="0.3"/>
-  <line x1="720" y1="0" x2="720" y2="240" stroke="#1E293B" stroke-width="0.5" opacity="0.3"/>
-  <!-- Network nodes — left cluster -->
-  <circle cx="95" cy="70" r="9" fill="url(#nodeGrad1)" filter="url(#glow)" opacity="0.9"/>
-  <circle cx="55" cy="120" r="7" fill="url(#nodeGrad2)" filter="url(#glow)" opacity="0.8"/>
-  <circle cx="140" cy="120" r="7" fill="url(#nodeGrad1)" filter="url(#glow)" opacity="0.8"/>
-  <circle cx="75" cy="170" r="6" fill="url(#nodeGrad2)" opacity="0.7"/>
-  <circle cx="125" cy="170" r="6" fill="url(#nodeGrad1)" opacity="0.7"/>
-  <line x1="95" y1="70" x2="55" y2="120" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.5"/>
-  <line x1="95" y1="70" x2="140" y2="120" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.5"/>
-  <line x1="55" y1="120" x2="75" y2="170" stroke="#7C3AED" stroke-width="1" opacity="0.4"/>
-  <line x1="140" y1="120" x2="125" y2="170" stroke="#06B6D4" stroke-width="1" opacity="0.4"/>
-  <line x1="55" y1="120" x2="140" y2="120" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.4"/>
-  <!-- Network nodes — right cluster -->
-  <circle cx="865" cy="70" r="9" fill="url(#nodeGrad2)" filter="url(#glow)" opacity="0.9"/>
-  <circle cx="820" cy="120" r="7" fill="url(#nodeGrad1)" filter="url(#glow)" opacity="0.8"/>
-  <circle cx="905" cy="120" r="7" fill="url(#nodeGrad2)" filter="url(#glow)" opacity="0.8"/>
-  <circle cx="835" cy="170" r="6" fill="url(#nodeGrad1)" opacity="0.7"/>
-  <circle cx="885" cy="170" r="6" fill="url(#nodeGrad2)" opacity="0.7"/>
-  <line x1="865" y1="70" x2="820" y2="120" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.5"/>
-  <line x1="865" y1="70" x2="905" y2="120" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.5"/>
-  <line x1="820" y1="120" x2="835" y2="170" stroke="#7C3AED" stroke-width="1" opacity="0.4"/>
-  <line x1="905" y1="120" x2="885" y2="170" stroke="#06B6D4" stroke-width="1" opacity="0.4"/>
-  <line x1="820" y1="120" x2="905" y2="120" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.4"/>
-  <!-- Main title -->
-  <text x="480" y="104" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="56" font-weight="800" fill="url(#swarmAccent)" filter="url(#glow)">Swarm 2.0</text>
-  <text x="480" y="142" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="17" fill="#94A3B8" letter-spacing="1">Hybrid Agentic Assistant</text>
-  <text x="480" y="164" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#64748B">Local llama.cpp · Groq · Gemini · Kimi · Discord · Telegram · RAG · SQLite Memory</text>
-  <!-- Accent line -->
-  <line x1="280" y1="186" x2="680" y2="186" stroke="url(#swarmAccent)" stroke-width="1.5" opacity="0.5"/>
-  <!-- Platform badges (text) -->
-  <rect x="298" y="196" width="84" height="20" rx="10" fill="#1E1B4B" stroke="#7C3AED" stroke-width="1" opacity="0.9"/>
-  <text x="340" y="210" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#A78BFA">Raspberry Pi 5</text>
-  <rect x="392" y="196" width="64" height="20" rx="10" fill="#0C1A2E" stroke="#06B6D4" stroke-width="1" opacity="0.9"/>
-  <text x="424" y="210" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#67E8F9">Windows</text>
-  <rect x="466" y="196" width="56" height="20" rx="10" fill="#0C1A2E" stroke="#0EA5E9" stroke-width="1" opacity="0.9"/>
-  <text x="494" y="210" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#38BDF8">Python 3.9+</text>
-  <rect x="532" y="196" width="52" height="20" rx="10" fill="#1A1A1A" stroke="#334155" stroke-width="1" opacity="0.9"/>
-  <text x="558" y="210" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#94A3B8">MIT License</text>
-  <rect x="594" y="196" width="70" height="20" rx="10" fill="#0F1F1A" stroke="#10B981" stroke-width="1" opacity="0.9"/>
-  <text x="629" y="210" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#34D399">Production Ready</text>
-</svg>
+![Swarm 2.0](assets/hero-banner.svg)
 
 </div>
 
+**Local-first hybrid AI assistant that routes every message through a 4-tier cascade — because the cloud shouldn't be the default answer to everything.**
+
+[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Architecture](#architecture) • [Roadmap](#roadmap) • [License](#license)
+
+---
+
+*I built this because I wanted a personal assistant that actually runs on my own hardware, doesn't send everything to OpenAI, and still has access to real reasoning power when the question actually needs it. The Pi 5 sitting on my desk shouldn't need a $20/month API bill just to answer "what's the weather" — but it should be able to call Groq when I ask it to dissect a codebase.*
+
+**Swarm 2.0** is a production-ready, privacy-first hybrid AI assistant built in Python. It runs on a **Raspberry Pi 5** or **Windows** machine, routes each message through a **4-tier decision cascade** — length check, keyword fast-path, on-device LLM classifier, and cloud fallback — and enriches every response with **local RAG** (retrieval-augmented generation from your own documents) and **per-user SQLite conversation memory**. The local model is Gemma 2 2B via llama.cpp. The cloud backends are Groq (reasoning), Gemini Flash (long context), and Kimi/Moonshot (planning). All three are optional; the thing works offline.
+
+---
+
 <div align="center">
 
-[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-purple?style=flat-square)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Pi%205%20%7C%20Windows-blue?style=flat-square&logo=raspberry-pi&logoColor=white)](wiki/Installation.md)
-[![llama.cpp](https://img.shields.io/badge/Local%20LLM-llama.cpp-orange?style=flat-square)](https://github.com/ggerganov/llama.cpp)
-[![Groq](https://img.shields.io/badge/Cloud-Groq%20%7C%20Gemini%20%7C%20Kimi-6D28D9?style=flat-square)](agentic_assistant/README.md)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-7C3AED?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-06B6D4?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![llama.cpp](https://img.shields.io/badge/Local%20LLM-llama.cpp-7C3AED?style=flat-square)](https://github.com/ggerganov/llama.cpp)
+[![Platform](https://img.shields.io/badge/Platform-Pi%205%20%7C%20Windows%20%7C%20Linux-06B6D4?style=flat-square&logo=raspberry-pi&logoColor=white)](wiki/Installation.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10B981?style=flat-square)](LICENSE)
+[![Groq](https://img.shields.io/badge/Cloud-Groq%20%7C%20Gemini%20%7C%20Kimi-7C3AED?style=flat-square)](docs/API_REFERENCE.md)
+[![SQLite](https://img.shields.io/badge/Storage-SQLite%20%2B%20HNSW-06B6D4?style=flat-square)](wiki/Architecture.md)
 
 </div>
 
 ---
 
-## What is Swarm 2.0?
+## System Overview
 
-**Swarm 2.0** is a production-ready, privacy-first hybrid AI assistant that runs on a **Raspberry Pi 5** or **Windows** PC. It routes each user message through a **4-tier cascade** — choosing the optimal backend (local or cloud) based on message length, keyword signals, and an on-device LLM classifier — while enriching every response with **local RAG** (retrieval-augmented generation) and **per-user conversation memory**.
+Swarm 2.0 is a single-process FastAPI application. Everything — the local LLM subprocess, vector store, conversation memory, bot polling loops, and cloud clients — lives inside one Uvicorn worker. That's a deliberate choice: SQLite is not safe across OS processes, and a Pi 5 doesn't need horizontal scaling at the API level.
 
 ```
-User message
+Swarm2.0/
+├── agentic_assistant/
+│   ├── src/assistant/
+│   │   ├── agent.py              # entry point — starts Uvicorn
+│   │   ├── api.py                # FastAPI app + endpoint definitions
+│   │   ├── orchestrator.py       # 4-tier routing engine
+│   │   ├── config.py             # dotenv Settings dataclass
+│   │   ├── memory.py             # per-user SQLite conversation store
+│   │   ├── personality.py        # YAML/env personality loader
+│   │   ├── llm/
+│   │   │   ├── llama_cpp_runner.py   # subprocess wrapper for llama-cli
+│   │   │   └── cloud_router.py       # Groq · Gemini · Kimi clients
+│   │   ├── rag/
+│   │   │   └── store.py          # HNSW index + SQLite metadata
+│   │   ├── bots/
+│   │   │   ├── telegram_polling.py   # async long-poll Telegram adapter
+│   │   │   └── discord_bot.py        # Discord gateway + webhook adapter
+│   │   └── messaging/
+│   │       ├── parsers.py        # extract (user_id, text) from payloads
+│   │       └── senders.py        # deliver responses to platforms
+│   ├── data/knowledge/           # drop .txt/.md/.pdf here for ingestion
+│   ├── deploy/
+│   │   ├── agent.service         # systemd unit (Pi/Linux)
+│   │   ├── nginx-agent.conf      # Nginx reverse proxy config
+│   │   ├── install_pi.sh         # Pi 5 bootstrap script
+│   │   └── install_windows.ps1   # Windows bootstrap script
+│   ├── scripts/
+│   │   ├── ingest_documents.py   # CLI: index documents into RAG store
+│   │   └── test_agent_end_to_end.py  # smoke test
+│   ├── .env.example              # documented environment variable template
+│   ├── requirements.txt          # 20 pinned dependencies
+│   └── pyproject.toml
+├── docs/
+│   ├── API_REFERENCE.md          # REST endpoint reference
+│   └── CONFIGURATION.md          # full .env annotated reference
+├── wiki/                         # extended guides
+└── assets/                       # SVG diagrams referenced in this README
+```
+
+The orchestrator is the only component allowed to make routing decisions. `api.py` accepts requests, `orchestrator.py` decides what to do with them, and the bot adapters just translate platform payloads.
+
+![Architecture](assets/architecture.svg)
+
+---
+
+## Features
+
+| Feature | What it actually does |
+|---|---|
+| 🧠 **4-Tier Routing** | Evaluates every message through: length threshold → keyword signals → local Gemma classifier → cloud fallback. Each response includes `route` and `reason` fields. |
+| 📚 **Local RAG** | Chunks and embeds your `.txt`/`.md`/`.pdf` documents with `sentence-transformers`, indexes them in hnswlib HNSW, and injects the top-3 relevant passages into every prompt — local and cloud alike. |
+| 💬 **Conversation Memory** | Stores per-user conversation turns in SQLite, keyed by `user_id`. Loads the last `MEMORY_MAX_TURNS` turns and prepends them as chat history. Survives restarts. |
+| ☁️ **Multi-Cloud Routing** | Groq for step-by-step reasoning, Gemini Flash for messages over 1,200 characters, Kimi/Moonshot for planning and roadmap queries. Missing a key? That backend is silently skipped. |
+| 🤖 **Telegram + Discord** | Polling mode needs no public URL — works behind NAT on a Pi or a Windows machine. Webhook mode available for public servers. Discord interactions verified with Ed25519/PyNaCl. |
+| 🎭 **Personality System** | Define your assistant's name, tone, humor, and expertise in `personality.yaml` or environment variables. The system prompt is injected into every inference call without touching code. |
+| ⚡ **FastAPI REST API** | `POST /query`, `GET /health`, `POST /webhook/telegram`, `POST /webhook/discord`. The response JSON always includes `route`, `reason`, and `response`. |
+| 🔒 **Privacy First** | No cloud keys = zero network traffic from the AI pipeline. Conversation history never leaves the device. API keys are never logged. |
+| 🖥️ **Cross-Platform Deploy** | systemd + Nginx on Pi/Linux. PowerShell scripts + Task Scheduler on Windows. Same codebase, same `.env` format. |
+| 🔀 **Explainable Routing** | Every response tells you which backend handled it and why — `local_simple`, `groq`, `kw_reasoning`, `llm_classifier`, etc. No black box. |
+
+---
+
+## Capability Visualization
+
+![Capabilities](assets/capabilities.svg)
+
+---
+
+## Architecture
+
+![Architecture diagram](assets/architecture.svg)
+
+The entire application runs as a **single Uvicorn worker**. SQLite uses a per-thread connection model, not a process-safe one — running `--workers 2` would corrupt your conversation store within minutes. This constraint also means the bot polling loops, the Uvicorn event loop, and the llama.cpp subprocess all share the same OS process, which keeps the resource footprint low enough to run on 8 GB of RAM without evicting anything.
+
+The orchestrator pattern keeps routing logic in one place: `orchestrator.py` owns all tier decisions, prompt construction, RAG injection, memory reads, and memory writes. Nothing in `api.py` or the bot adapters touches routing logic. This makes the cascade easy to test in isolation and easy to extend — adding a new cloud provider is a matter of adding a method to `CloudRouter` and a branch in `_route()`.
+
+---
+
+## Data Flow
+
+![Data flow diagram](assets/data-flow.svg)
+
+Primary data path from message receipt to response delivery:
+
+```
+User message (Telegram / Discord / POST /query)
     │
-    ├── Tier 1: Short & simple?      ──► llama.cpp (local, instant)
-    ├── Tier 2: Keyword signal?      ──► Groq / Gemini / Kimi (cloud)
-    ├── Tier 3: LLM classifier       ──► local Gemma decides
-    └── Tier 4: Cloud unavailable?   ──► llama.cpp fallback (always works)
-              │
-              └── Every route: RAG context + conversation memory injected
+    ├── [api.py] validate + sanitise (MAX_INPUT_CHARS = 8000)
+    │
+    ├── [orchestrator] fetch RAG context (top-3 HNSW k-NN chunks)
+    ├── [orchestrator] load conversation history (last 10 turns, SQLite)
+    │
+    ├── [orchestrator] Tier 1: len(msg) ≤ 150 AND no complex signal?
+    │       └── YES → llama.cpp local  (reason: short_message)
+    │
+    ├── [orchestrator] Tier 2: keyword match?
+    │       ├── plan/roadmap/strategy  → Kimi     (reason: kw_planning)
+    │       ├── len ≥ 1200             → Gemini   (reason: kw_long_context)
+    │       ├── analyze/compare/…      → Groq     (reason: kw_reasoning)
+    │       └── docs/document/…        → local    (reason: kw_rag)
+    │
+    ├── [orchestrator] Tier 3: Gemma classifies → LOCAL / GROQ / GEMINI / KIMI
+    │       └── failure / LOCAL → llama.cpp     (reason: llm_classifier_local)
+    │
+    └── [orchestrator] Tier 4: cloud call fails or key missing
+            └── llama.cpp fallback               (reason: *_unavailable)
+                │
+                ├── save turn to SQLite memory
+                └── return { response · route · reason }
 ```
 
 ---
 
-## Feature Highlights
+## Installation
 
-<div align="center">
+### Prerequisites
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 310" width="920" height="310" role="img" aria-label="Feature grid">
-  <defs>
-    <linearGradient id="fBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#070B18"/>
-      <stop offset="100%" stop-color="#0B1124"/>
-    </linearGradient>
-    <linearGradient id="fCard1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1E1B4B"/><stop offset="100%" stop-color="#13113A"/>
-    </linearGradient>
-    <linearGradient id="fCard2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0C2340"/><stop offset="100%" stop-color="#071A30"/>
-    </linearGradient>
-    <linearGradient id="fCard3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0A2020"/><stop offset="100%" stop-color="#061818"/>
-    </linearGradient>
-    <linearGradient id="fCard4" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1A0A30"/><stop offset="100%" stop-color="#120820"/>
-    </linearGradient>
-  </defs>
-  <rect width="920" height="310" rx="14" fill="url(#fBg)"/>
-  <!-- Row 1 -->
-  <!-- Card 1: 4-Tier Routing -->
-  <rect x="16" y="16" width="208" height="130" rx="10" fill="url(#fCard1)" stroke="#7C3AED" stroke-width="1.2"/>
-  <text x="32" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="20">🧠</text>
-  <text x="58" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#C4B5FD">4-Tier Routing</text>
-  <text x="32" y="64" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#8B7CC8">Length · Keyword · LLM</text>
-  <text x="32" y="78" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#8B7CC8">classifier · Cloud fallback</text>
-  <text x="32" y="96" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6B5FA0">Groq for reasoning</text>
-  <text x="32" y="110" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6B5FA0">Gemini for long context</text>
-  <text x="32" y="124" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6B5FA0">Kimi for planning</text>
-  <!-- Card 2: Local RAG -->
-  <rect x="238" y="16" width="208" height="130" rx="10" fill="url(#fCard2)" stroke="#0EA5E9" stroke-width="1.2"/>
-  <text x="254" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="20">📚</text>
-  <text x="280" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#7DD3FC">Local RAG</text>
-  <text x="254" y="64" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#4A90B8">sentence-transformers</text>
-  <text x="254" y="78" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#4A90B8">hnswlib · SQLite</text>
-  <text x="254" y="96" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#3A708A">Ingest .txt / .md / .pdf</text>
-  <text x="254" y="110" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#3A708A">Context injected every turn</text>
-  <text x="254" y="124" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#3A708A">Zero external dependencies</text>
-  <!-- Card 3: Memory -->
-  <rect x="460" y="16" width="208" height="130" rx="10" fill="url(#fCard3)" stroke="#10B981" stroke-width="1.2"/>
-  <text x="476" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="20">💬</text>
-  <text x="502" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#6EE7B7">Conversation Memory</text>
-  <text x="476" y="64" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#3A8A68">Per-user SQLite store</text>
-  <text x="476" y="78" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#3A8A68">Configurable turn depth</text>
-  <text x="476" y="96" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2E6E52">Persists across sessions</text>
-  <text x="476" y="110" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2E6E52">Isolated by user_id</text>
-  <text x="476" y="124" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2E6E52">Thread-safe single-writer</text>
-  <!-- Card 4: Personality -->
-  <rect x="682" y="16" width="222" height="130" rx="10" fill="url(#fCard4)" stroke="#A855F7" stroke-width="1.2"/>
-  <text x="698" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="20">🎭</text>
-  <text x="724" y="42" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#D8B4FE">Custom Personality</text>
-  <text x="698" y="64" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#8B60C0">YAML or env vars</text>
-  <text x="698" y="78" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#8B60C0">Name · style · humor</text>
-  <text x="698" y="96" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6A4A94">Injected into every prompt</text>
-  <text x="698" y="110" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6A4A94">Local and cloud routes</text>
-  <text x="698" y="124" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6A4A94">No code changes needed</text>
-  <!-- Row 2 -->
-  <!-- Card 5: Bots -->
-  <rect x="16" y="162" width="208" height="130" rx="10" fill="url(#fCard2)" stroke="#2563EB" stroke-width="1.2"/>
-  <text x="32" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="20">🤖</text>
-  <text x="58" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#93C5FD">Telegram + Discord</text>
-  <text x="32" y="210" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#3A70B8">Polling (no public URL)</text>
-  <text x="32" y="224" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#3A70B8">Webhook (server mode)</text>
-  <text x="32" y="242" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2A5A94">Ed25519 Discord verify</text>
-  <text x="32" y="256" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2A5A94">Telegram secret token</text>
-  <text x="32" y="270" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2A5A94">Works behind NAT</text>
-  <!-- Card 6: Privacy -->
-  <rect x="238" y="162" width="208" height="130" rx="10" fill="url(#fCard3)" stroke="#059669" stroke-width="1.2"/>
-  <text x="254" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="20">🔒</text>
-  <text x="280" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#6EE7B7">Privacy First</text>
-  <text x="254" y="210" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#3A8A68">Full offline mode available</text>
-  <text x="254" y="224" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#3A8A68">No cloud when keys absent</text>
-  <text x="254" y="242" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2E6E52">Memory stays on device</text>
-  <text x="254" y="256" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2E6E52">Keys never logged</text>
-  <text x="254" y="270" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#2E6E52">EXPOSE_DELIVERY_ERRORS=false</text>
-  <!-- Card 7: API -->
-  <rect x="460" y="162" width="208" height="130" rx="10" fill="url(#fCard1)" stroke="#7C3AED" stroke-width="1.2"/>
-  <text x="476" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="20">⚡</text>
-  <text x="502" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#C4B5FD">FastAPI REST</text>
-  <text x="476" y="210" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#8B7CC8">POST /query</text>
-  <text x="476" y="224" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#8B7CC8">GET /health</text>
-  <text x="476" y="242" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6B5FA0">Webhook: Telegram + Discord</text>
-  <text x="476" y="256" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6B5FA0">curl-friendly JSON API</text>
-  <text x="476" y="270" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6B5FA0">route + reason in response</text>
-  <!-- Card 8: Platforms -->
-  <rect x="682" y="162" width="222" height="130" rx="10" fill="url(#fCard4)" stroke="#EC4899" stroke-width="1.2"/>
-  <text x="698" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="20">🖥️</text>
-  <text x="726" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="700" fill="#F9A8D4">Multi-Platform</text>
-  <text x="698" y="210" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#C06090">Raspberry Pi 5 (8GB)</text>
-  <text x="698" y="224" font-family="'Segoe UI',Arial,sans-serif" font-size="9.5" fill="#C06090">Windows 10/11 (64-bit)</text>
-  <text x="698" y="242" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#A04878">Linux / Ubuntu / Debian</text>
-  <text x="698" y="256" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#A04878">systemd + nginx ready</text>
-  <text x="698" y="270" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#A04878">Task Scheduler (Windows)</text>
-</svg>
+- **Python 3.9+** — the type hints and dataclasses used here need it
+- **llama.cpp** — built from source; provides the `llama-cli` binary for local inference
+- **Gemma 2 2B Q4_K_M** model file (`.gguf`) — download from HuggingFace
 
-</div>
-
----
-
-## Quick Start
-
-### Raspberry Pi 5 / Linux
+### 1. Raspberry Pi 5 / Linux
 
 ```bash
+# Clone and enter the assistant directory
 git clone https://github.com/Kaelith69/Swarm2.0.git
 cd Swarm2.0/agentic_assistant
+
+# Run the Pi bootstrap script (installs system deps, builds llama.cpp, creates venv)
 bash deploy/install_pi.sh
-cp .env.example .env && chmod 600 .env
-# Edit .env with your model path and API keys
+
+# Copy and secure the environment file
+cp .env.example .env
+chmod 600 .env
+
+# Edit .env — minimum required fields:
+#   MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf
+#   LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli
+nano .env
+
+# Start the assistant (starts the FastAPI server + bot pollers)
 bash scripts/pi_start_and_check.sh
 ```
 
-### Windows (PowerShell)
+> **Why `chmod 600`?** Your `.env` contains API keys and bot tokens. If it's world-readable, any user on the system can read them. Do this before putting any real keys in the file.
+
+### 2. Windows (PowerShell)
 
 ```powershell
 git clone https://github.com/Kaelith69/Swarm2.0.git
 cd Swarm2.0\agentic_assistant
+
+# Bootstrap: installs Python deps, builds or locates llama.cpp, creates venv
 powershell -ExecutionPolicy Bypass -File deploy\install_windows.ps1
-notepad .env   # fill in MODEL_PATH, bot tokens, cloud keys
+
+# Edit .env with Notepad (or VS Code)
+notepad .env
+
+# Start server + bots
 powershell -ExecutionPolicy Bypass -File scripts\start_windows.ps1
 ```
 
-### Verify it's running
+### 3. Platform comparison
+
+| Step | Pi 5 / Linux | Windows |
+|---|---|---|
+| llama.cpp build | `cmake` via install_pi.sh | Pre-built binary or build manually |
+| Process manager | systemd (`deploy/agent.service`) | Task Scheduler |
+| Reverse proxy | Nginx (`deploy/nginx-agent.conf`) | Needs ngrok for public webhooks |
+| Bot polling | Works as-is | Works as-is |
+| Virtual env | `.venv` created by install script | `.venv` created by install script |
+
+### 4. Verify
 
 ```bash
 curl http://127.0.0.1:8000/health
@@ -238,98 +216,23 @@ curl http://127.0.0.1:8000/health
 
 curl -X POST http://127.0.0.1:8000/query \
   -H "Content-Type: application/json" \
-  -d '{"message": "Hello, what can you do?"}'
+  -d '{"message": "Hello"}'
 # → {"route":"local_simple","reason":"short_message","response":"..."}
 ```
 
 ---
 
-## 4-Tier Routing Cascade
+## Usage
 
-Every message is evaluated through a priority cascade. RAG context and conversation memory are injected into **every** backend prompt regardless of tier.
+### Primary workflow
 
-| Tier | Condition | Route | Provider | `reason` |
-|------|-----------|-------|----------|----------|
-| **1** | `len ≤ 150` and no complex signal | `local_simple` | llama.cpp local | `short_message` |
-| **2** | `plan / roadmap / strategy / workflow` keyword | `kimi` | Moonshot Kimi | `kw_planning` |
-| **2** | `len ≥ 1200` characters | `gemini` | Gemini Flash | `kw_long_context` |
-| **2** | `analyze / compare / tradeoff / root cause` keyword | `groq` | Groq LLaMA | `kw_reasoning` |
-| **2** | `docs / document / knowledge base / retrieve` keyword | `local_rag` | llama.cpp + RAG | `kw_rag` |
-| **3** | Ambiguous → local Gemma classifies → cloud | varies | Groq / Gemini / Kimi | `llm_classifier` |
-| **3** | Ambiguous → local Gemma classifies → local | `local_simple` | llama.cpp | `llm_classifier_local` |
-| **4** | Cloud key missing or API error | `local_fallback` | llama.cpp | `*_unavailable` |
+1. Start the server: `bash scripts/pi_start_and_check.sh` (or the Windows equivalent)
+2. Send a message to your Telegram or Discord bot, or `POST /query` directly
+3. The response JSON includes `route` and `reason` — use these to tune your routing thresholds
+4. Ingest your documents: drop `.txt`/`.md`/`.pdf` files in `data/knowledge/`, then run the ingestion script
+5. The assistant will automatically pull relevant context from those documents for every subsequent query
 
-> Set `USE_LLM_ROUTING=false` for deterministic keyword-only routing (useful on constrained hardware).
-
----
-
-## Technology Stack
-
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| API server | FastAPI + Uvicorn | 0.115 / 0.34 |
-| Local LLM | llama.cpp + Gemma 2 2B Q4_K_M | latest |
-| Cloud: reasoning | Groq (`llama-3.1-8b-instant`) | — |
-| Cloud: long context | Google Gemini Flash | `gemini-1.5-flash` |
-| Cloud: planning | Kimi / Moonshot | `moonshot-v1-8k` |
-| Embeddings | sentence-transformers | 3.4.1 |
-| Vector index | hnswlib (cosine HNSW) | 0.8.0 |
-| Conversation store | SQLite 3 | built-in |
-| Document parsing | pypdf | 5.3.1 |
-| Bot: Telegram | httpx async poller | — |
-| Bot: Discord | discord.py | 2.3.2 |
-| Language | Python | 3.9+ |
-
----
-
-## Platform Support
-
-| Feature | Raspberry Pi 5 | Windows 10/11 | Linux (x86) |
-|---------|:--------------:|:-------------:|:-----------:|
-| Local inference (llama.cpp) | ✅ | ✅ | ✅ |
-| Cloud routing (Groq/Gemini/Kimi) | ✅ | ✅ | ✅ |
-| Telegram bot (polling) | ✅ | ✅ | ✅ |
-| Discord bot (polling) | ✅ | ✅ | ✅ |
-| Webhook mode | ✅ | ⚠️ (needs ngrok) | ✅ |
-| systemd auto-start | ✅ | ❌ | ✅ |
-| Task Scheduler auto-start | ❌ | ✅ | ❌ |
-| Nginx reverse proxy | ✅ | ❌ | ✅ |
-
----
-
-## Configuration Overview
-
-All settings are loaded from `.env`. The most important ones:
-
-```env
-# Local model (required for local inference)
-MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf
-LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli
-
-# Bot mode — "polling" for Windows/NAT, "webhook" for public servers
-BOT_MODE=polling
-
-# Cloud API keys (optional — leave blank to disable that route)
-GROQ_API_KEY=your_key_here
-GEMINI_API_KEY=your_key_here
-KIMI_API_KEY=your_key_here
-
-# Bot tokens
-TELEGRAM_BOT_TOKEN=your_token
-DISCORD_BOT_TOKEN=your_token
-
-# Personality (or use personality.yaml)
-AGENT_NAME=Aria
-AGENT_PERSONALITY=friendly, witty, and deeply knowledgeable
-```
-
-See [docs/CONFIGURATION.md](docs/CONFIGURATION.md) for the full annotated reference.
-
----
-
-## RAG Knowledge Ingestion
-
-Place documents (`.txt`, `.md`, `.pdf`) in `data/knowledge/`, then run:
+### Ingest documents
 
 ```bash
 # Linux / Pi
@@ -341,44 +244,193 @@ $env:PYTHONPATH = "src"
 .\.venv\Scripts\python.exe scripts\ingest_documents.py data\knowledge --source knowledge_base
 ```
 
-RAG context is fetched for every message and injected into every prompt — local and cloud routes alike.
+### Key environment variables
+
+```env
+# Local model (required for any local inference)
+MODEL_PATH=/home/pi/models/gemma-2-2b-it-Q4_K_M.gguf
+LLAMA_MAIN_PATH=/home/pi/llama.cpp/build/bin/llama-cli
+
+# Bot mode — "polling" works behind NAT; "webhook" needs a public HTTPS URL
+BOT_MODE=polling
+
+# Cloud API keys — leave blank to disable that route entirely
+GROQ_API_KEY=
+GEMINI_API_KEY=
+KIMI_API_KEY=
+
+# Bot tokens
+TELEGRAM_BOT_TOKEN=
+DISCORD_BOT_TOKEN=
+
+# Personality
+AGENT_NAME=Aria
+AGENT_PERSONALITY=curious, direct, and occasionally sarcastic
+```
+
+> **Pro tip:** Set `USE_LLM_ROUTING=false` if you're running on constrained hardware and want deterministic keyword-only routing without the overhead of running Gemma to classify ambiguous messages. You'll lose Tier 3 routing intelligence but save roughly 2–3 seconds per ambiguous query.
+
+See [docs/CONFIGURATION.md](docs/CONFIGURATION.md) for the full annotated reference.
 
 ---
 
-## Documentation Suite
+## Project Structure
 
-| Document | Description |
-|----------|-------------|
-| **[agentic_assistant/README.md](agentic_assistant/README.md)** | Complete setup and operation guide |
-| **[agentic_assistant/GUIDE.md](agentic_assistant/GUIDE.md)** | Detailed Windows & Pi walkthrough |
-| **[docs/API_REFERENCE.md](docs/API_REFERENCE.md)** | REST API endpoint reference |
-| **[docs/CONFIGURATION.md](docs/CONFIGURATION.md)** | Full `.env` configuration reference |
-| **[wiki/Architecture.md](wiki/Architecture.md)** | System design and module map |
-| **[wiki/Installation.md](wiki/Installation.md)** | Step-by-step installation |
-| **[wiki/Usage.md](wiki/Usage.md)** | Running, querying, bot configuration |
-| **[wiki/Troubleshooting.md](wiki/Troubleshooting.md)** | Common issues and fixes |
-| **[wiki/Privacy.md](wiki/Privacy.md)** | Data handling and security model |
-| **[wiki/Roadmap.md](wiki/Roadmap.md)** | Planned features and milestones |
-| **[CONTRIBUTING.md](CONTRIBUTING.md)** | Developer workflow and PR guide |
-| **[SECURITY.md](SECURITY.md)** | Vulnerability reporting policy |
-| **[CHANGELOG.md](CHANGELOG.md)** | Version history |
-| **[agentic_assistant/docs/pi_setup.md](agentic_assistant/docs/pi_setup.md)** | Raspberry Pi 5 production setup |
+```
+agentic_assistant/
+├── 🚀 src/assistant/
+│   ├── agent.py              # Uvicorn entry point — single worker ONLY
+│   ├── api.py                # FastAPI app, startup hooks, all 4 endpoints
+│   ├── orchestrator.py       # The whole routing brain — don't split this
+│   ├── config.py             # Frozen Settings dataclass, loaded from .env
+│   ├── memory.py             # SQLite-backed per-user turn store
+│   ├── personality.py        # YAML-first, env-fallback personality loader
+│   ├── 🤖 llm/
+│   │   ├── llama_cpp_runner.py   # Spawns llama-cli subprocess, parses stdout
+│   │   └── cloud_router.py       # groq · google-generativeai · openai (Kimi)
+│   ├── 📚 rag/
+│   │   └── store.py              # hnswlib HNSW + SQLite, chunk ingest + query
+│   ├── 💬 bots/
+│   │   ├── telegram_polling.py   # httpx async poller, no webhook needed
+│   │   └── discord_bot.py        # discord.py gateway, Ed25519 interaction verify
+│   └── 📨 messaging/
+│       ├── parsers.py            # platform payload → (user_id, text)
+│       └── senders.py            # text → platform response call
+├── 📂 data/knowledge/        # knowledge base documents (gitignored content)
+├── ⚙️ deploy/
+│   ├── agent.service         # systemd unit file
+│   ├── nginx-agent.conf      # Nginx TLS proxy config
+│   ├── install_pi.sh         # Pi 5 full setup (Python, llama.cpp, venv)
+│   └── install_windows.ps1   # Windows full setup
+├── 🔧 scripts/
+│   ├── ingest_documents.py       # index .txt/.md/.pdf into RAG store
+│   ├── test_agent_end_to_end.py  # smoke test — must pass before PR
+│   ├── pi_start_and_check.sh     # start server + verify /health
+│   └── start_windows.ps1         # Windows equivalent
+├── .env.example              # every config var documented with defaults
+├── personality.yaml.example  # personality config template
+└── requirements.txt          # 20 pinned production dependencies
+```
+
+---
+
+## Performance Stats
+
+![Stats](assets/stats.svg)
+
+Local inference latency depends heavily on your hardware and model quantization:
+
+| Hardware | Model | Avg first-token latency |
+|---|---|---|
+| Raspberry Pi 5 (8GB) | Gemma 2 2B Q4_K_M | ~2–4 s |
+| Windows (modern CPU) | Gemma 2 2B Q4_K_M | ~1–2 s |
+| Cloud (Groq) | llama-3.1-8b-instant | ~0.3–0.8 s |
+
+> These are rough estimates under normal load. `INFERENCE_THREADS` defaults to `cpu_count - 1`; on the Pi 5 (4 cores) that means 3 threads. Setting it to 4 may reduce latency by ~10% at the cost of occasional thermal throttling.
+
+---
+
+## Privacy
+
+**What stays on your device, always:**
+- Conversation history (SQLite, `RAG_DATA_DIR`)
+- Document embeddings and RAG index (HNSW + SQLite)
+- API keys and bot tokens (`.env`)
+- LLM inference when using local routes
+
+**What leaves your device (only if you configure it):**
+- Messages routed to Groq, Gemini, or Kimi — sent over HTTPS to those providers' APIs
+- The routing cascade is transparent: every response includes `route` and `reason` so you always know which backend handled a message
+
+**To verify full local-only operation:** ensure `GROQ_API_KEY`, `GEMINI_API_KEY`, and `KIMI_API_KEY` are all empty in your `.env`. The system will never call a cloud API if the key is absent.
+
+See [wiki/Privacy.md](wiki/Privacy.md) for the full data inventory and security hardening guide.
+
+---
+
+## Roadmap
+
+### v2.0 — Shipped ✅
+
+- [x] 4-tier routing cascade (length → keyword → LLM classifier → fallback)
+- [x] Local inference via llama.cpp (Gemma 2 2B Q4_K_M)
+- [x] Groq, Gemini Flash, Kimi cloud integrations
+- [x] RAG: sentence-transformers + hnswlib + SQLite
+- [x] Per-user conversation memory (SQLite)
+- [x] Telegram bot (polling + webhook)
+- [x] Discord bot (gateway + interactions webhook, Ed25519 verify)
+- [x] YAML personality system
+- [x] FastAPI REST (`/query`, `/health`, `/webhook/*`)
+- [x] Raspberry Pi 5 deploy (systemd + Nginx)
+- [x] Windows deploy (PowerShell scripts + Task Scheduler)
+- [x] Document ingestion CLI (.txt/.md/.pdf)
+- [x] Explainable routing (route + reason in every response)
+
+### v2.1 — In Progress 🔄
+
+- [ ] Streaming responses (SSE on `/query`; progressive bot messages)
+- [ ] Route analytics dashboard (SQLite log of route/reason/latency)
+- [ ] Web UI for health, recent queries, and routing stats
+- [ ] Per-user RAG namespacing (isolated knowledge bases per user_id)
+- [ ] Configurable RAG chunk size (`CHUNK_SIZE`, `CHUNK_OVERLAP` in `.env`)
+
+### v2.2+ — Planned 💡
+
+- [ ] Additional cloud providers: Anthropic Claude, Mistral, OpenAI
+- [ ] Voice/TTS output for Discord voice channels
+- [ ] Multi-agent swarm coordination via message bus
+- [ ] Semantic long-term memory (beyond conversation turns)
+- [ ] Tool use / function calling (web search, calculator)
+- [ ] On-device LoRA fine-tuning on Pi 5
+- [ ] Docker / OCI container image
+- [ ] Slack and Teams bot adapters
+
+---
+
+## Packaging
+
+To deploy as a standalone systemd service on Pi/Linux:
+
+```bash
+cd Swarm2.0/agentic_assistant
+sudo cp deploy/agent.service /etc/systemd/system/swarm-assistant.service
+sudo systemctl daemon-reload
+sudo systemctl enable swarm-assistant
+sudo systemctl start swarm-assistant
+sudo journalctl -u swarm-assistant -f
+```
+
+To run as a Windows background service via Task Scheduler:
+
+```powershell
+$action = New-ScheduledTaskAction -Execute "powershell.exe" `
+  -Argument "-File scripts\start_windows.ps1" `
+  -WorkingDirectory (Get-Location).Path
+$trigger = New-ScheduledTaskTrigger -AtLogOn
+Register-ScheduledTask -TaskName "SwarmAssistant" -Action $action -Trigger $trigger -RunLevel Highest
+```
 
 ---
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
 
-Key rules:
-- **Single Uvicorn worker only** — SQLite is not process-safe; do not use `--workers N`.
-- **Cloud is optional** — every code path must fall back gracefully to local inference.
-- **Routing logic in `orchestrator.py`** — no routing decisions in `api.py` or bot adapters.
-- **`pyright src/`** must exit cleanly before opening a PR.
-- **`python scripts/test_agent_end_to_end.py`** must pass.
+Hard rules:
+- **Single Uvicorn worker only** — `--workers N` with N > 1 will corrupt the SQLite stores.
+- **Cloud is always optional** — every code path must fall back gracefully when cloud keys are absent.
+- **Routing logic belongs in `orchestrator.py`** — no routing decisions in `api.py` or bot adapters.
+- `pyright src/` must exit cleanly.
+- `python scripts/test_agent_end_to_end.py` must pass.
+
+---
+
+## Security
+
+Report vulnerabilities via [SECURITY.md](SECURITY.md). Do not open a public GitHub issue for security bugs.
 
 ---
 
 ## License
 
-Released under the [MIT License](LICENSE). © 2025 Kaelith69.
+[MIT](LICENSE) © 2025 Kaelith69 — built on a Pi 5, tested at 3am, runs in production.

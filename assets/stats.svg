@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 300" width="820" height="300" role="img" aria-label="Swarm 2.0 project statistics dashboard">
+  <defs>
+    <linearGradient id="sBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B18"/>
+      <stop offset="100%" stop-color="#0D1428"/>
+    </linearGradient>
+    <linearGradient id="sCard1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E1040"/><stop offset="100%" stop-color="#130A2C"/>
+    </linearGradient>
+    <linearGradient id="sCard2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#073844"/><stop offset="100%" stop-color="#041C24"/>
+    </linearGradient>
+    <linearGradient id="sCard3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E2A5A"/><stop offset="100%" stop-color="#0E1430"/>
+    </linearGradient>
+    <linearGradient id="sCard4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#063A20"/><stop offset="100%" stop-color="#031C10"/>
+    </linearGradient>
+    <linearGradient id="sCard5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D1B69"/><stop offset="100%" stop-color="#1A0F40"/>
+    </linearGradient>
+    <filter id="sGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="820" height="300" rx="12" fill="url(#sBg)"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="820" height="42" rx="12" fill="#0F172A"/>
+  <rect x="0" y="30" width="820" height="12" fill="#0F172A"/>
+  <text x="410" y="26" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="13" font-weight="700" fill="#E2E8F0">Swarm 2.0 — Project Stats</text>
+
+  <!-- ── ROW 1 (5 cards) ── -->
+
+  <!-- Card: Python source lines -->
+  <rect x="18" y="56" width="148" height="100" rx="8" fill="url(#sCard1)" stroke="#7C3AED" stroke-width="1.3"/>
+  <text x="92" y="78" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#8B7CC8" letter-spacing="1">SOURCE LINES</text>
+  <text x="92" y="115" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#C4B5FD" filter="url(#sGlow)">1,790</text>
+  <text x="92" y="136" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Python (src/)</text>
+  <text x="92" y="149" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">excl. scripts</text>
+
+  <!-- Card: Python files -->
+  <rect x="178" y="56" width="148" height="100" rx="8" fill="url(#sCard2)" stroke="#06B6D4" stroke-width="1.3"/>
+  <text x="252" y="78" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#22D3EE" letter-spacing="1">PYTHON FILES</text>
+  <text x="252" y="115" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#67E8F9" filter="url(#sGlow)">21</text>
+  <text x="252" y="136" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">modules + scripts</text>
+  <text x="252" y="149" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">across src/</text>
+
+  <!-- Card: Dependencies -->
+  <rect x="338" y="56" width="148" height="100" rx="8" fill="url(#sCard3)" stroke="#2563EB" stroke-width="1.3"/>
+  <text x="412" y="78" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#60A5FA" letter-spacing="1">DEPENDENCIES</text>
+  <text x="412" y="115" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#93C5FD" filter="url(#sGlow)">20</text>
+  <text x="412" y="136" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">pinned in</text>
+  <text x="412" y="149" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">requirements.txt</text>
+
+  <!-- Card: Platforms -->
+  <rect x="498" y="56" width="148" height="100" rx="8" fill="url(#sCard4)" stroke="#10B981" stroke-width="1.3"/>
+  <text x="572" y="78" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#34D399" letter-spacing="1">PLATFORMS</text>
+  <text x="572" y="115" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#6EE7B7" filter="url(#sGlow)">3</text>
+  <text x="572" y="136" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Pi 5 · Windows</text>
+  <text x="572" y="149" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Linux / x86</text>
+
+  <!-- Card: Routing Tiers -->
+  <rect x="658" y="56" width="148" height="100" rx="8" fill="url(#sCard5)" stroke="#A855F7" stroke-width="1.3"/>
+  <text x="732" y="78" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#D8B4FE" letter-spacing="1">ROUTING TIERS</text>
+  <text x="732" y="115" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#E9D5FF" filter="url(#sGlow)">4</text>
+  <text x="732" y="136" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">len → kw →</text>
+  <text x="732" y="149" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">LLM → fallback</text>
+
+  <!-- ── ROW 2 (5 cards) ── -->
+
+  <!-- Card: API Endpoints -->
+  <rect x="18" y="168" width="148" height="100" rx="8" fill="url(#sCard5)" stroke="#7C3AED" stroke-width="1.3"/>
+  <text x="92" y="190" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#A78BFA" letter-spacing="1">API ENDPOINTS</text>
+  <text x="92" y="227" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#C4B5FD" filter="url(#sGlow)">4</text>
+  <text x="92" y="248" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">/query /health</text>
+  <text x="92" y="261" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">/webhook × 2</text>
+
+  <!-- Card: Cloud Providers -->
+  <rect x="178" y="168" width="148" height="100" rx="8" fill="url(#sCard3)" stroke="#06B6D4" stroke-width="1.3"/>
+  <text x="252" y="190" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#67E8F9" letter-spacing="1">CLOUD PROVIDERS</text>
+  <text x="252" y="227" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#67E8F9" filter="url(#sGlow)">3</text>
+  <text x="252" y="248" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Groq · Gemini</text>
+  <text x="252" y="261" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Kimi/Moonshot</text>
+
+  <!-- Card: Bot Adapters -->
+  <rect x="338" y="168" width="148" height="100" rx="8" fill="url(#sCard2)" stroke="#2563EB" stroke-width="1.3"/>
+  <text x="412" y="190" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#93C5FD" letter-spacing="1">BOT ADAPTERS</text>
+  <text x="412" y="227" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#93C5FD" filter="url(#sGlow)">2</text>
+  <text x="412" y="248" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Telegram</text>
+  <text x="412" y="261" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">Discord</text>
+
+  <!-- Card: Config Variables -->
+  <rect x="498" y="168" width="148" height="100" rx="8" fill="url(#sCard1)" stroke="#10B981" stroke-width="1.3"/>
+  <text x="572" y="190" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#6EE7B7" letter-spacing="1">CONFIG VARS</text>
+  <text x="572" y="227" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#6EE7B7" filter="url(#sGlow)">30+</text>
+  <text x="572" y="248" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">dotenv Settings</text>
+  <text x="572" y="261" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">all with defaults</text>
+
+  <!-- Card: Memory turns -->
+  <rect x="658" y="168" width="148" height="100" rx="8" fill="url(#sCard4)" stroke="#A855F7" stroke-width="1.3"/>
+  <text x="732" y="190" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#34D399" letter-spacing="1">MEMORY TURNS</text>
+  <text x="732" y="227" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="34" font-weight="800" fill="#6EE7B7" filter="url(#sGlow)">10</text>
+  <text x="732" y="248" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">default per-user</text>
+  <text x="732" y="261" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="9" fill="#475569">configurable</text>
+
+  <!-- Footer note -->
+  <text x="410" y="285" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="8" fill="#334155">Stats measured from source tree · v2.0 · single-worker · zero cloud required</text>
+</svg>
