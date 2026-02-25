@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" width="820" height="220" role="img" aria-label="Swarm 2.0 — Hybrid Agentic Assistant hero banner">
+  <defs>
+    <linearGradient id="hBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B18"/>
+      <stop offset="60%" stop-color="#0B1020"/>
+      <stop offset="100%" stop-color="#0D1428"/>
+    </linearGradient>
+    <linearGradient id="hTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="hNode1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="hNode2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <filter id="hGlow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="hGlowSoft">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="820" height="220" rx="14" fill="url(#hBg)"/>
+
+  <!-- Subtle grid -->
+  <line x1="0" y1="55" x2="820" y2="55" stroke="#1E293B" stroke-width="0.4" opacity="0.4"/>
+  <line x1="0" y1="110" x2="820" y2="110" stroke="#1E293B" stroke-width="0.4" opacity="0.4"/>
+  <line x1="0" y1="165" x2="820" y2="165" stroke="#1E293B" stroke-width="0.4" opacity="0.4"/>
+  <line x1="164" y1="0" x2="164" y2="220" stroke="#1E293B" stroke-width="0.4" opacity="0.3"/>
+  <line x1="328" y1="0" x2="328" y2="220" stroke="#1E293B" stroke-width="0.4" opacity="0.3"/>
+  <line x1="492" y1="0" x2="492" y2="220" stroke="#1E293B" stroke-width="0.4" opacity="0.3"/>
+  <line x1="656" y1="0" x2="656" y2="220" stroke="#1E293B" stroke-width="0.4" opacity="0.3"/>
+
+  <!-- Left network cluster -->
+  <circle cx="72" cy="52" r="8" fill="url(#hNode1)" filter="url(#hGlow)" opacity="0.95"/>
+  <circle cx="36" cy="100" r="6" fill="url(#hNode2)" filter="url(#hGlow)" opacity="0.85"/>
+  <circle cx="118" cy="100" r="6" fill="url(#hNode1)" filter="url(#hGlow)" opacity="0.85"/>
+  <circle cx="52" cy="152" r="5" fill="url(#hNode2)" opacity="0.7"/>
+  <circle cx="100" cy="158" r="5" fill="url(#hNode1)" opacity="0.7"/>
+  <circle cx="22" cy="55" r="3" fill="#7C3AED" opacity="0.5"/>
+  <circle cx="140" cy="148" r="3" fill="#06B6D4" opacity="0.5"/>
+  <line x1="72" y1="52" x2="36" y2="100" stroke="url(#hTitle)" stroke-width="1.4" opacity="0.6"/>
+  <line x1="72" y1="52" x2="118" y2="100" stroke="url(#hTitle)" stroke-width="1.4" opacity="0.6"/>
+  <line x1="36" y1="100" x2="52" y2="152" stroke="#7C3AED" stroke-width="1" opacity="0.45"/>
+  <line x1="118" y1="100" x2="100" y2="158" stroke="#06B6D4" stroke-width="1" opacity="0.45"/>
+  <line x1="36" y1="100" x2="118" y2="100" stroke="url(#hTitle)" stroke-width="1.2" opacity="0.45"/>
+  <line x1="22" y1="55" x2="72" y2="52" stroke="#7C3AED" stroke-width="0.8" opacity="0.35"/>
+  <line x1="52" y1="152" x2="100" y2="158" stroke="#06B6D4" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Right network cluster -->
+  <circle cx="748" cy="52" r="8" fill="url(#hNode2)" filter="url(#hGlow)" opacity="0.95"/>
+  <circle cx="706" cy="100" r="6" fill="url(#hNode1)" filter="url(#hGlow)" opacity="0.85"/>
+  <circle cx="784" cy="100" r="6" fill="url(#hNode2)" filter="url(#hGlow)" opacity="0.85"/>
+  <circle cx="718" cy="155" r="5" fill="url(#hNode1)" opacity="0.7"/>
+  <circle cx="768" cy="150" r="5" fill="url(#hNode2)" opacity="0.7"/>
+  <circle cx="798" cy="58" r="3" fill="#06B6D4" opacity="0.5"/>
+  <circle cx="690" cy="148" r="3" fill="#7C3AED" opacity="0.5"/>
+  <line x1="748" y1="52" x2="706" y2="100" stroke="url(#hTitle)" stroke-width="1.4" opacity="0.6"/>
+  <line x1="748" y1="52" x2="784" y2="100" stroke="url(#hTitle)" stroke-width="1.4" opacity="0.6"/>
+  <line x1="706" y1="100" x2="718" y2="155" stroke="#7C3AED" stroke-width="1" opacity="0.45"/>
+  <line x1="784" y1="100" x2="768" y2="150" stroke="#06B6D4" stroke-width="1" opacity="0.45"/>
+  <line x1="706" y1="100" x2="784" y2="100" stroke="url(#hTitle)" stroke-width="1.2" opacity="0.45"/>
+  <line x1="798" y1="58" x2="748" y2="52" stroke="#06B6D4" stroke-width="0.8" opacity="0.35"/>
+  <line x1="718" y1="155" x2="768" y2="150" stroke="#7C3AED" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Data stream lines (horizontal flow indicators) -->
+  <line x1="155" y1="95" x2="300" y2="95" stroke="#7C3AED" stroke-width="0.8" stroke-dasharray="5 4" opacity="0.3"/>
+  <line x1="520" y1="95" x2="665" y2="95" stroke="#06B6D4" stroke-width="0.8" stroke-dasharray="5 4" opacity="0.3"/>
+  <circle cx="228" cy="95" r="2.5" fill="#7C3AED" opacity="0.5"/>
+  <circle cx="592" cy="95" r="2.5" fill="#06B6D4" opacity="0.5"/>
+
+  <!-- Main title -->
+  <text x="410" y="92" text-anchor="middle" font-family="'Segoe UI', 'Arial', sans-serif" font-size="58" font-weight="800" fill="url(#hTitle)" filter="url(#hGlowSoft)" letter-spacing="-1">Swarm 2.0</text>
+
+  <!-- Tagline -->
+  <text x="410" y="128" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="16" fill="#94A3B8" letter-spacing="2">Hybrid Agentic Assistant</text>
+  <text x="410" y="149" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#64748B" letter-spacing="0.5">llama.cpp · Groq · Gemini · Kimi · RAG · SQLite Memory · Telegram · Discord</text>
+
+  <!-- Accent divider -->
+  <line x1="252" y1="166" x2="568" y2="166" stroke="url(#hTitle)" stroke-width="1.2" opacity="0.55"/>
+
+  <!-- Platform/tech badge pills -->
+  <rect x="263" y="175" width="76" height="18" rx="9" fill="#1E1B4B" stroke="#7C3AED" stroke-width="1" opacity="0.95"/>
+  <text x="301" y="188" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="8.5" fill="#A78BFA">Raspberry Pi 5</text>
+
+  <rect x="349" y="175" width="60" height="18" rx="9" fill="#0C1A2E" stroke="#06B6D4" stroke-width="1" opacity="0.95"/>
+  <text x="379" y="188" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="8.5" fill="#67E8F9">Windows</text>
+
+  <rect x="419" y="175" width="54" height="18" rx="9" fill="#0A1C10" stroke="#10B981" stroke-width="1" opacity="0.95"/>
+  <text x="446" y="188" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="8.5" fill="#34D399">Linux</text>
+
+  <rect x="483" y="175" width="76" height="18" rx="9" fill="#1A1020" stroke="#A855F7" stroke-width="1" opacity="0.95"/>
+  <text x="521" y="188" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="8.5" fill="#D8B4FE">Python 3.9+</text>
+
+  <!-- Tier badge -->
+  <rect x="263" y="197" width="296" height="15" rx="7" fill="#0F172A" stroke="#334155" stroke-width="0.8" opacity="0.7"/>
+  <text x="411" y="208" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="8" fill="#475569" letter-spacing="1">4-TIER ROUTING · LOCAL FIRST · ALWAYS ANSWERING</text>
+</svg>
