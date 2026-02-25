@@ -1,0 +1,87 @@
+name: "✨ Feature Request"
+description: Suggest a new feature or improvement for Swarm 2.0
+title: "[feat]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest an improvement to Swarm 2.0!
+        Please fill in as much detail as you can so we can evaluate the request effectively.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the system does this feature relate to?
+      options:
+        - Routing / Orchestrator
+        - Local LLM (llama.cpp)
+        - Cloud providers (Groq / Gemini / Kimi)
+        - RAG / Knowledge ingestion
+        - Conversation memory
+        - Telegram bot
+        - Discord bot
+        - REST API
+        - Personality / configuration
+        - Deployment / infrastructure
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: What problem does this feature solve? What use case does it enable?
+      placeholder: "Currently, when I send a long document for summarization, the system..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or change you would like to see.
+      placeholder: "Add a streaming response mode so the user sees partial output as it generates..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Are there other ways to solve this problem? Why is your proposed approach better?
+      placeholder: "I considered using a polling approach, but..."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Primary platform
+      description: Which platform(s) is this feature primarily for?
+      multiple: true
+      options:
+        - Raspberry Pi 5
+        - Windows
+        - Linux (generic)
+        - All platforms
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Any links, screenshots, code sketches, or other context that helps explain the request.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a pull request to implement this feature.
